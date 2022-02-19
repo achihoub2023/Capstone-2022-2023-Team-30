@@ -9,17 +9,16 @@ import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 type Props = {
     // wasContiueClicked: boolean;
-    onContinueClicked: () => void;
+    onClick: () => void;
 };
 
-function LandingPage({onContinueClicked}: Props) {
+function LandingPage({onClick}: Props) {
   return (
     <div className="LandingPage">
         
         <h1>This is the landing page, click the button to continue</h1>
 
-        <button onClick={onContinueClicked}>Continue</button>
-        {/* <button onClick={Continue()}>Continue</button> */}
+        <button onClick={onClick}>Continue</button>
 
     </div>
   );

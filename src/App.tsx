@@ -1,3 +1,4 @@
+import { syncBuiltinESMExports } from 'module';
 import React from 'react';
 import {useState} from 'react';
 import './App.css';
@@ -15,12 +16,9 @@ function App() {
 
     const [appOn, setAppOn] = useState(false);
 
-    function Continue(this: any): void {
-        console.log(appOn);
+    function onContinueClick(this: any): void {
         console.log("Continue was clicked");
-        // this.state.appOn = true;
         setAppOn(true);
-        console.log(appOn);
     }
 
 
@@ -31,7 +29,7 @@ function App() {
 
             {!appOn && <LandingPage
 
-                onContinueClicked={() => Continue()}
+                onClick={() => onContinueClick()}
 
             />} 
 
