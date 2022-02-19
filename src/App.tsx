@@ -1,26 +1,52 @@
 import React from 'react';
-import logo from './logo.svg';
+import {useState} from 'react';
 import './App.css';
+import Chart from './Chart';
+import LandingPage from './LandingPage';
+
+
+
+
+
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [appOn, setAppOn] = useState(false);
+
+    function Continue(this: any): void {
+        console.log(appOn);
+        console.log("Continue was clicked");
+        // this.state.appOn = true;
+        setAppOn(true);
+        console.log(appOn);
+    }
+
+
+    return (
+        <div className="App">
+
+            <h1>App</h1>
+
+            {!appOn && <LandingPage
+
+                onContinueClicked={() => Continue()}
+
+            />} 
+
+            {appOn && <Chart />}
+
+        </div>
+
+        
+
+
+
+
+
+
+    );
 }
 
 export default App;
