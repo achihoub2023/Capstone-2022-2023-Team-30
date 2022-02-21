@@ -1,7 +1,8 @@
 import React from 'react';
 // import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 // import logo from './logo.svg';
-// import './App.css';
+// import './Tutorial.css';
+import './App.css';
 
 
 // Function for the button
@@ -16,6 +17,9 @@ type Props = {
 
 function Tutorial({ onBackClick, onNextclick}: Props) {
     return (
+
+        
+
         <div className="Tutorial">
 
             <h1>Tutorial</h1>

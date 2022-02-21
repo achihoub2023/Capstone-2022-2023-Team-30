@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* CSS portion for Tutorial Page */
+.Tutorial {
+    text-align: left;
+}
+
+/* CSS portion for Actual App content */
+.Chart {
+    text-align: center;
+}
