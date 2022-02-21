@@ -1,5 +1,5 @@
 import React from 'react';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+// import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 // import logo from './logo.svg';
 // import './App.css';
 
@@ -9,19 +9,22 @@ import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 type Props = {
     // wasContiueClicked: boolean;
-    onClick: () => void;
+    onGetStartedClick: () => void;
+    onTutorialClick: () => void;
 };
 
-function LandingPage({onClick}: Props) {
-  return (
-    <div className="LandingPage">
-        
-        <h1>This is the landing page, click the button to continue</h1>
+function LandingPage({ onGetStartedClick, onTutorialClick}: Props) {
+    return (
+        <div className="LandingPage">
 
-        <button onClick={onClick}>Continue</button>
+            <h1>J.E.D.I</h1>
 
-    </div>
-  );
+            <button onClick={onTutorialClick}>Tutorial</button>
+            <button onClick={onGetStartedClick}>Get Started</button>
+
+
+        </div>
+    );
 }
 
 export default LandingPage;
