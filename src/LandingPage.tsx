@@ -19,6 +19,19 @@ function LandingPage({ onGetStartedClick, onTutorialClick}: Props) {
 
             <h1>J.E.D.I</h1>
 
+            <p>
+                Join
+                <br />
+                <br />
+                Educate
+                <br />
+                <br />
+                Discover
+                <br />
+                <br />
+                Invest        
+            </p>
+
             <button onClick={onTutorialClick}>Tutorial</button>
             <button onClick={onGetStartedClick}>Get Started</button>
 
