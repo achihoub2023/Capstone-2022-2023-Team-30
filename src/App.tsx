@@ -2,9 +2,10 @@
 import React from 'react';
 import {useState} from 'react';
 import './App.css';
-import Chart from './Chart';
+import SearchPage from './SearchPage';
 import LandingPage from './LandingPage';
 import Tutorial from './Tutorial';
+import StockData from './StockData';
 
 
 
@@ -17,6 +18,7 @@ function App() {
 
     const [appOn, setAppOn] = useState(false);
     const [tutorialOn, setTutorialOn] = useState(false);
+    const [stockName, setStockName] = useState<string | null>(null);
 
     function getStartedClick(this: any): void {
         console.log("Continue was clicked");
@@ -35,6 +37,16 @@ function App() {
         setAppOn(false);
     }
 
+    function setStock(name: string): void {
+        console.log("Stock name was set");
+        setStockName(name);
+    }
+
+    function backToSearch(this: any): void {
+        console.log("Back was clicked");
+        setStockName(null);
+    }
+
     
 
     return (
@@ -49,14 +61,17 @@ function App() {
 
             />} 
 
-            {(appOn && !tutorialOn) && <Chart />}
-
             {(tutorialOn && !appOn) && <Tutorial
             
                 onBackClick={() => backtoMain()}
                 onNextclick={() => getStartedClick()}
             
             />}
+
+            {(appOn && !tutorialOn && (stockName == null)) && <SearchPage setStockName={(x) => setStock(x)} />}
+
+            {(appOn && !tutorialOn && (stockName != null)) && <StockData stockName={stockName} onBackClick={() => backToSearch()} />}
+
 
         </div>
 
