@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import Chart from './StockStuff/Chart';
 import Forcast from './StockStuff/Forcast';
 import ArticleList from './StockStuff/ArticleList';
@@ -14,31 +14,31 @@ type Props = {
 }
 
 enum PageToShow {
-    Chart, Forcast, Articles  // Add more chart types here
+    Chart, Forcast, Articles  // Add more chart types heres
 }
 
 // This page shows the chart initially and then either the forcast or profile depending on which button is clicked
-function StockData({ stockName, onBackClick}: Props) {
+function StockData({ stockName, onBackClick }: Props) {
 
-  const [page, changePage] = useState(PageToShow.Chart);
+    const [page, changePage] = useState(PageToShow.Chart);
 
-  function backToChart(): void {
-    changePage(PageToShow.Chart);
-  }
-
-
-  return (
-    <div className="StockData">
-
-        { (page === PageToShow.Chart) && <Chart stockName={stockName} onBackClick={onBackClick}/>}
-
-        { (page === PageToShow.Forcast) && <Forcast stockName={stockName} onBackClick={backToChart}/>}
-
-        { (page === PageToShow.Articles) && <ArticleList stockName={stockName} onBackClick={backToChart}/>}
+    function backToChart(): void {
+        changePage(PageToShow.Chart);
+    }
 
 
-    </div>
-  );
+    return (
+        <div className="StockData">
+
+            {(page === PageToShow.Chart) && <Chart stockName={stockName} onBackClick={onBackClick} />}
+
+            {(page === PageToShow.Forcast) && <Forcast stockName={stockName} onBackClick={backToChart} />}
+
+            {(page === PageToShow.Articles) && <ArticleList stockName={stockName} onBackClick={backToChart} />}
+
+
+        </div>
+    );
 }
 
 export default StockData;

@@ -12,9 +12,6 @@ type Props = {
 
 function SearchPage({ setStockName }: Props) {
 
-    //TODO: Implement function that calls setStockName when stock is selected
-
-
     return (
         <div className="SearchPage">
 
@@ -22,7 +19,7 @@ function SearchPage({ setStockName }: Props) {
 
             <SearchBar />
 
-            <StockList />
+            <StockList onStockClick={setStockName} />
 
 
 
