@@ -1,43 +1,44 @@
-import React from 'react';
+import React from 'react'
 // import './App.css';
 
 interface Props {
-    onStockClick: (stockName: string) => void;
+    onStockClick: (stockName: string) => void
 }
-
 
 //Function that takes value in HTML element and calls onStockClick function
-
-
-
 function StockList({ onStockClick }: Props) {
-  
-  function hello(): void {
-    
-      console.log("hrllo");
+    function hello(e: any): void {
+        console.log(e.currentTarget.innerText)
+    }
 
-      const item = document.querySelector('#list')
-
-      // console.log(item?.getElement);
-
-
-
-
-  }
-
-  return (
-    <div className="StockList">
-
-        {/* Placeholder for design */}
-        <ul id='list' onClick={hello}>
-            <li id='apple'>Apple</li>
-            <li >Microsoft</li>
-            <li >Google</li>
-        </ul>
-
-
-    </div>
-  );
+    return (
+        <div className="StockList">
+            {/* Placeholder for design */}
+            <ul id="list" onClick={(e) => hello(e)}>
+                <li
+                    onClick={(e) => {
+                        hello(e)
+                    }}
+                >
+                    Apple
+                </li>
+                <li
+                    onClick={(e) => {
+                        hello(e)
+                    }}
+                >
+                    Microsoft
+                </li>
+                <li
+                    onClick={(e) => {
+                        hello(e)
+                    }}
+                >
+                    Google
+                </li>
+            </ul>
+        </div>
+    )
 }
 
-export default StockList;
+export default StockList
