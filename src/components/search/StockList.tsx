@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-// import './App.css';
 
 interface Props {
   onStockClick: (stockName: string) => void
 }
 
 class StockList extends Component<Props> {
-
   render(){
     return (
       <div className="StockList">
@@ -40,8 +38,6 @@ class StockList extends Component<Props> {
     this.addStocks(["Apple", "Google", "Microsoft", "Amazon"])
     console.log("StockList mounted")
   }
-
 }
-
 
 export default StockList
