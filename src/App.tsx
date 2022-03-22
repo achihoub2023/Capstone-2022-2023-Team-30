@@ -1,11 +1,10 @@
-// import { syncBuiltinESMExports } from 'module';
 import React from 'react'
 import { useState } from 'react'
-import './App.css'
-import SearchPage from './SearchPage'
-import LandingPage from './LandingPage'
-import Tutorial from './Tutorial'
-import StockData from './StockData'
+import 'App.css'
+import SearchPage from './pages/SearchPage'
+import LandingPage from './pages/LandingPage'
+import Tutorial from './pages/Tutorial'
+import StockData from './pages/StockData'
 
 function App() {
     const [appOn, setAppOn] = useState(false)

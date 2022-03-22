@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import Chart from './StockStuff/Chart';
-import Forcast from './StockStuff/Forcast';
-import ArticleList from './StockStuff/ArticleList';
+import Chart from '../components/stock/Chart';
+import Forcast from '../components/stock/Forcast';
+import ArticleList from '../components/stock/ArticleList';
 // import logo from './logo.svg';
 // import './App.css';
 

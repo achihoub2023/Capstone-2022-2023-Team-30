@@ -1,8 +1,8 @@
 import React from 'react';
 // import logo from './logo.svg';
-import './App.css';
-import StockList from './SearchComponents/StockList';
-import SearchBar from './SearchComponents/SearchBar';
+import 'App.css';
+import StockList from '../components/search/StockList';
+import SearchBar from '../components/search/SearchBar';
 
 type Props = {
 
