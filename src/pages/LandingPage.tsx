@@ -1,13 +1,16 @@
 import React from 'react';
+import {
+    Link
+} from "react-router-dom";
 
-// Function for the button
-type Props = {
-    // wasContiueClicked: boolean;
-    onGetStartedClick: () => void;
-    onTutorialClick: () => void;
-};
+// // Function for the button
+// type Props = {
+//     // wasContiueClicked: boolean;
+//     onGetStartedClick: () => void;
+//     onTutorialClick: () => void;
+// };
 
-function LandingPage({ onGetStartedClick, onTutorialClick}: Props) {
+function LandingPage() {
     return (
         <div className="LandingPage">
             <h1>J.E.D.I</h1>
@@ -17,9 +20,12 @@ function LandingPage({ onGetStartedClick, onTutorialClick}: Props) {
                 Discover
                 Invest        
             </p>
-
-            <button onClick={onTutorialClick}>Tutorial</button>
-            <button onClick={onGetStartedClick}>Get Started</button>
+            <Link to="/tutorial">
+                <button>Tutorial</button>
+            </Link>
+            <Link to="/search">
+                <button>Get Started</button>
+            </Link>
         </div>
     );
 }

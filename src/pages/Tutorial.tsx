@@ -1,18 +1,23 @@
 import React from 'react';
 import 'App.css';
+import {
+    Link
+} from "react-router-dom";
 
-// Function for the button
-type Props = {
-    // wasContiueClicked: boolean;
-    onBackClick: () => void;
-    onNextclick: () => void;
-};
+// // Function for the button
+// type Props = {
+//     // wasContiueClicked: boolean;
+//     onBackClick: () => void;
+//     onNextclick: () => void;
+// };
 
-function Tutorial({ onBackClick, onNextclick}: Props) {
+function Tutorial() {
     return (
         <div className="Tutorial">
             <h1>Tutorial</h1>
-            <button onClick={onBackClick}>Back</button>
+            <Link to="/">
+                <button>Back</button>
+            </Link>
             <p>
                 Welcome to J.E.D.I ! 
                 Our goal is to help you find info on events surrounding various stock trends, and forecast stock movement.
@@ -30,7 +35,9 @@ function Tutorial({ onBackClick, onNextclick}: Props) {
                 Disclaimer: This content is for informational purposes only, you should not construe any such information or other material as legal, tax, investment, financial, or other advice.
             </p>
 
-            <button onClick={onNextclick}>Continue</button>
+            <Link to="/search">
+                <button>Continue</button>
+            </Link>
         </div>
     );
 }
