@@ -19,6 +19,7 @@
 /* General Styles */
 body {
   font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
 }
 
 button, input, select, a {
