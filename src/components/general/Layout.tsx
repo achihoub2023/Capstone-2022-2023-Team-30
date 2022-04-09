@@ -5,7 +5,8 @@ import 'components/styles/Layout.css';
 
 export default function Layout() {
   const navigate = useNavigate();
-  const [heading, setHeading] = useState('Heading');
+  const [heading, setHeading] = useState<string | null>('Heading');
+  
   return (
     <>
       <div className="header">
@@ -17,7 +18,7 @@ export default function Layout() {
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
-      <Outlet />
+      <Outlet context={{heading, setHeading}}/>
     </>
   );
 }

@@ -30,7 +30,14 @@ button, input, select, a {
 
 .container {
   min-height: 100vh;
-  width: clamp(250px, 60vw, 1320px);
+  width: clamp(250px, 60vw, 700px);
+  margin: 0 auto;
+  padding: 4rem 0;
+}
+
+.wide-container {
+  min-height: 100vh;
+  width: clamp(250px, 80vw, 700px);
   margin: 0 auto;
   padding: 4rem 0;
 }

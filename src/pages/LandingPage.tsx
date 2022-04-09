@@ -19,10 +19,10 @@ function LandingPage() {
                 <p>Discover</p>
                 <p>Invest</p>
             </div>
-            <Link to="/tutorial">
+            <Link to="/pages/tutorial">
                 <button className='large-rounded-btn dark-primary-bg white-text'>Tutorial</button>
             </Link>
-            <Link to="/search">
+            <Link to="/pages/search">
                 <button className='large-rounded-btn dark-secondary-bg white-text'>Get Started</button>
             </Link>
         </div>
