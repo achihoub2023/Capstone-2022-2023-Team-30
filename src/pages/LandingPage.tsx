@@ -33,9 +33,11 @@ function LandingPage() {
             })
     }
 
+    let param = "MSFT";
+
     function getData2() {
-        fetch("http://localhost:5000/data", {
-      body: JSON.stringify({ "name" : "testPOST" }),
+        fetch("http://localhost:5000/stockExample", {
+      body: JSON.stringify({ "name" : param }),
       method: "POST",
       headers: { "Content-Type": "application/json" },
     })
