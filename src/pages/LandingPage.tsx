@@ -56,6 +56,29 @@ function LandingPage() {
       });
     }
 
+    function testing() {
+        fetch("http://localhost:5000/data", {
+      body: JSON.stringify({ "date" : "2022-01-25" }),
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((response) => {
+        // console.log(response.json());
+        const res = response.json();
+        console.log(res);
+        // setProfileData(res);
+        return res;
+      })
+      .then((data) => {
+        console.log(data);
+                setBackendData({
+                    name: data.name,
+                    about: data.about
+                });
+                console.log(backendData);
+      });
+    }
+
     return (
         <div className="container main-container">
             <h1 className='huge-text main-title dark-primary-text'>J.E.D.I</h1>
@@ -72,7 +95,7 @@ function LandingPage() {
                 <button className='large-rounded-btn dark-secondary-bg white-text'>Get Started</button>
             </Link>
 
-            <button className='large-rounded-btn dark-secondary-bg white-text'onClick={getData2}>Click To Test Backend</button>
+            <button className='large-rounded-btn dark-secondary-bg white-text'onClick={testing}>Click To Test Backend</button>
             <div className="large-text">
                 <p>Name: {backendData.name}</p>
                 <p>About: {backendData.about}</p>
