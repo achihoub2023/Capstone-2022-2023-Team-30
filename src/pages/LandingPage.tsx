@@ -12,8 +12,8 @@ import 'pages/styles/LandingPage.css';
 function LandingPage() {
 
     const [backendData, setBackendData] = useState({
-        results: ""
-        //about: "",
+        results: "",
+        about: ""
     });
 
     function getData() {
@@ -26,8 +26,8 @@ function LandingPage() {
             .then((data) => {
                 console.log(data);
                 setBackendData({
-                    results: data.result
-                    //about: data.about
+                    results: data.result,
+                    about: data.about
                 });
                 console.log(backendData);
             })
@@ -51,8 +51,8 @@ function LandingPage() {
       .then((data) => {
         console.log(data);
                 setBackendData({
-                    results: data.result
-                    //about: data.about
+                    results: data.result,
+                    about: data.about
                 });
                 console.log(backendData);
       });
@@ -72,18 +72,20 @@ function LandingPage() {
         return res;
       })
       .then((data) => {
-        //console.log(data);
+        console.log(data);
         var json = JSON.parse(data.result);
+        var json2 = JSON.parse(data.about);
         // var titles= json["title"]
         // var links = json["link"]
         // var title = titles["1"]
         console.log(json)
+        console.log(json2)
         // console.log(JSON.parse(json))
         //console.log(titles)
         //console.log(json)
                 setBackendData({
-                    results: json["1"]
-                    //about: data.about
+                    results: json[0],
+                    about: json2[0]
                 });
 
                 console.log(backendData);
@@ -109,7 +111,7 @@ function LandingPage() {
             <button className='large-rounded-btn dark-secondary-bg white-text'onClick={testing}>Click To Test Backend</button>
             <div className="large-text">
                 <p>News Articles: {backendData.results}</p>
-                {/* <p>About: {backendData.about}</p> */}
+                <p>About: {backendData.about}</p>
             </div>
         </div>
     );

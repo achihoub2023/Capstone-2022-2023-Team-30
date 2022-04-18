@@ -34,8 +34,9 @@ class App extends Component {
 
     // Connect to python backend
     componentDidMount(): void {
+        //as
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://127.0.0.1:5001/hello_route', true);
+        xhr.open('GET', 'http://127.0.0.1:8080', true);
 
         xhr.onload = function () {
             console.log(xhr.response);

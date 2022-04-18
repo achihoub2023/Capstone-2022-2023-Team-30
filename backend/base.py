@@ -33,8 +33,8 @@ def sendData():
     #out  = results["title"].to_json()
     response_body = {
         #"result":results[["title","link"]].to_json()
-        "result": json.dumps(list(results[["title"]].T.to_dict().values()))
-       # "about": "This is a test for post request"
+        "result": json.dumps(list(results["title"].str.split("\n").map(lambda x: x[0]).T.to_dict().values())),
+        "about": json.dumps(list(results["link"].T.to_dict().values()))
     }
     return response_body
 
