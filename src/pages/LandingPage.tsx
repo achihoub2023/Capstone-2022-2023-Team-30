@@ -12,12 +12,12 @@ import 'pages/styles/LandingPage.css';
 function LandingPage() {
 
     const [backendData, setBackendData] = useState({
-        name: "",
-        about: "",
+        results: ""
+        //about: "",
     });
 
     function getData() {
-        fetch("http://localhost:5000/profile", {method: "GET"})
+        fetch("http://localhost:8080/profile", {method: "POST"})
             .then((response) => {
                 const res = response.json();
                 console.log(res);
@@ -26,8 +26,8 @@ function LandingPage() {
             .then((data) => {
                 console.log(data);
                 setBackendData({
-                    name: data.name,
-                    about: data.about
+                    results: data.result
+                    //about: data.about
                 });
                 console.log(backendData);
             })
@@ -36,7 +36,7 @@ function LandingPage() {
     let param = "MSFT";
 
     function getData2() {
-        fetch("http://localhost:5000/stockExample", {
+        fetch("http://localhost:8080/stockExample", {
       body: JSON.stringify({ "name" : param }),
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -51,17 +51,17 @@ function LandingPage() {
       .then((data) => {
         console.log(data);
                 setBackendData({
-                    name: data.name,
-                    about: data.about
+                    results: data.result
+                    //about: data.about
                 });
                 console.log(backendData);
       });
     }
 
     function testing() {
-        fetch("http://localhost:5000/data", {
+        fetch("http://localhost:8080/data", {
       body: JSON.stringify({ "date" : "2022-01-25" }),
-      method: "GET",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
     })
       .then((response) => {
@@ -72,11 +72,20 @@ function LandingPage() {
         return res;
       })
       .then((data) => {
-        console.log(data);
+        //console.log(data);
+        var json = JSON.parse(data.result);
+        // var titles= json["title"]
+        // var links = json["link"]
+        // var title = titles["1"]
+        console.log(json)
+        // console.log(JSON.parse(json))
+        //console.log(titles)
+        //console.log(json)
                 setBackendData({
-                    name: data.name,
-                    about: data.about
+                    results: json["1"]
+                    //about: data.about
                 });
+
                 console.log(backendData);
       });
     }
@@ -99,8 +108,8 @@ function LandingPage() {
 
             <button className='large-rounded-btn dark-secondary-bg white-text'onClick={testing}>Click To Test Backend</button>
             <div className="large-text">
-                <p>Name: {backendData.name}</p>
-                <p>About: {backendData.about}</p>
+                <p>News Articles: {backendData.results}</p>
+                {/* <p>About: {backendData.about}</p> */}
             </div>
         </div>
     );
