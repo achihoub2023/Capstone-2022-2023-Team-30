@@ -9,7 +9,6 @@ api = Flask(__name__)
 CORS(api)
 
 
-@api.route('/profile')
 def my_profile():
     print('called myProfile')
     # basis for Get requests

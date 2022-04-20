@@ -55,3 +55,18 @@ Last Friday to Monday, percentage increase.
 
 General 
 Train on all. 
+
+
+
+Note:
+
+Use earnings data as well
+
+
+Also deal with stock and their relevance to the filter (Tesla shouldn't have an Afghanistan invasion filter)
+
+Movement based on a decision tree:
+- define probability p to move up or down
+- Use some metric to determine movement
+	- use various parameters to determine
+	- do sentiment analysis (VADER polarity here?)
