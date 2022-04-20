@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "pages/styles/Tutorial.css";
 import { Link, useOutletContext } from "react-router-dom";
 import { IHeaderContext } from "interfaces";
 
 function Tutorial() {
   const { setHeadingName } = useOutletContext() as IHeaderContext;
-  setHeadingName("Tutorial"); // throws some sort of error, still gotta figure that out
+  useEffect(() => {
+    setHeadingName("Tutorial"); // throws some sort of error, still gotta figure that out
+  }, []);
 
   return (
     <div className="tutorial wide-container">

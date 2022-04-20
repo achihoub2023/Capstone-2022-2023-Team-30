@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "App.css";
 import StockList from "components/search/StockList";
 import SearchBar from "components/search/SearchBar";
@@ -11,7 +11,9 @@ type Props = {
 
 function SearchPage({ setStockName }: Props) {
   const { setHeadingName } = useOutletContext() as IHeaderContext;
-  setHeadingName("Search");
+  useEffect(() => {
+    setHeadingName("Search"); // throws some sort of error, still gotta figure that out
+  }, []);
   return (
     <div className="SearchPage">
       <h1>Search For a Stock!</h1>

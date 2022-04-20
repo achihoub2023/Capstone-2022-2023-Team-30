@@ -68,9 +68,9 @@ function LandingPage() {
         console.log(actualData);
         setBackendData({
           about: actualData.about,
-          results: actualData.result
-        })
-      })
+          results: actualData.result,
+        });
+      });
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +96,7 @@ function LandingPage() {
         </button>
       </Link>
 
-      <button
+      {/* <button
         className="large-rounded-btn dark-secondary-bg white-text"
         onClick={testing}
       >
@@ -105,7 +105,7 @@ function LandingPage() {
       <div className="large-text">
         <p>News Articles: {backendData.results}</p>
         <p>About: {backendData.about}</p>
-      </div>
+      </div> */}
     </div>
   );
 }
