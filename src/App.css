@@ -38,8 +38,10 @@ button, input, select, a {
 }
 
 .container {
+  --max-width: 60rem;
+  --padding: 2rem;
+  width: min(100% - var(--padding), var(--max-width));
   min-height: 100vh;
-  width: clamp(250px, 60vw, 700px);
   margin: 0 auto;
   padding: 4rem 0;
 }
