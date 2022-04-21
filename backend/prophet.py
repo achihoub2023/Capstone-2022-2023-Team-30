@@ -1,81 +1,127 @@
-from tabnanny import verbose
-import matplotlib
-import numpy
-import pandas
-import tensorflow
-from filter_manager import *
-# pip install streamlit fbprophet yfinance plotly
-from datetime import date
-
-import yfinance as yf
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly
-from plotly import graph_objs as go
+#from information import client_id
+import requests
+import numpy as np
+import pandas as pd
+from datetime import datetime
+import random
+# For visualizations
+import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-from datetime import timedelta
-START = "2015-01-01"
-TODAY = date.today().strftime("%Y-%m-%d")
+# For time series modeling
+import statsmodels.api as sm
+from statsmodels.tsa.stattools import adfuller
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from statsmodels.tsa.arima_model import ARMA
+import yfinance as yf
+import statistics
 
-filter = filter_manager()
-filter.add_filters("test",START, TODAY)
+dataframe = yf.download('GOOG','2021-01-21','2022-04-20')
+dataObama = yf.download('GOOG','2009-01-20','2017-01-21')
+dataForFindingImmediateGrowth = yf.download("GOOG",'2020-10-30','2020-11-06')
+tickerInfoForRecs = yf.Ticker("GOOG")
+
+dailyIncrease = 1 + ((dataObama.iloc[len(dataObama)-1]['Close'] - dataObama.iloc[0]['Close']) / (dataObama.iloc[0]['Close'])) / (len(dataObama))
+
+def calc_return(dataframe, lag = 1):
+    """
+    Adds a column of the previous close to the dataframe. Lag is a user-input parameter.
+    """
+    prevClose = [x for x in dataframe['Close'][:-lag]]
+    prevClose = [np.nan for i in range(lag)] + prevClose
+    dataframe[f'{lag}-day prevClose'] = prevClose
+    dataframe['return'] = np.log(dataframe[f'{lag}-day prevClose']).diff()
+    
+    return dataframe
+
+calc_return(dataframe, lag=1)
+
+def mean_std(dataframe, length=20):
+    """
+    Adds 2 columns to our dataframe: A rolling mean and standard deviations of user-defined lengths
+    """
+    dataframe[f'sma{length}'] = dataframe['return'].rolling(length).mean()
+    dataframe[f'std{length}'] = dataframe['return'].rolling(length).std()
+    # Remove leading NaNs
+    dataframe.dropna(inplace=True)
+    
+mean_std(dataframe)
+
+dftest = sm.tsa.adfuller(dataframe['return'], autolag='AIC')
+dfoutput = pd.Series(dftest[0:4], index=['Test Statistic', 'p-value', '#Lags Used', 'Number of Observation Used'])
+for key, value in dftest[4].items():
+    dfoutput['Critical Value ({0})'.format(key)] = value
+
+ar1 = ARMA(tuple(dataframe['return']), (6,6)).fit()
+ar1.summary()
+
+# Generate predictions
+preds = ar1.fittedvalues
+
+# Add predictions to our dataframe
+dataframe['predictions'] = dataframe[dataframe.columns[1]] * (1 + preds)
+
+steps = 63
+
+# Define forecast array for 2 days into the future
+# forecast = ar1.forecast(steps=steps)[0]
+# forecast1 = dataframe['Close'][-1] * (1 + forecast[0])
+# forecast2 = forecast1 * (1 + forecast[1])
+# forecast_array = np.array([forecast1, forecast2])
+
+forecast = ar1.forecast(steps=steps)[0]
+prevForecast = dataframe['Close'][-1] * (1 + forecast[0])
+forecast_array = [prevForecast]
+for i in range(steps-1):
+    currForecast = prevForecast * (1 + forecast[i])
+    prevForecast = currForecast
+    forecast_array.append(currForecast)
+
+forecastBidenANDObama = np.array(forecast_array)*dailyIncrease
+
+mean_forecast_array = np.mean([forecast_array, forecastBidenANDObama], axis=0)
+
+noise = np.random.normal(0, 50, 63)
+plt.figure(figsize = (16,8))
+fc = pd.Series(mean_forecast_array + noise, index = pd.date_range(pd.DataFrame(dataframe.iloc[len(dataframe)-1]).columns[0], periods=63).tolist())
+plt.plot(fc)
+plt.plot(dataframe['Close'][-200:])
+plt.savefig("STATIC/test.png")
+
+immediateIncrease = ((dataForFindingImmediateGrowth.iloc[len(dataForFindingImmediateGrowth)-1]['Close'] - dataForFindingImmediateGrowth.iloc[0]['Close']) / (dataForFindingImmediateGrowth.iloc[0]['Close']))
+immediateIncrease = immediateIncrease*100
+print(immediateIncrease, "immediate percent increase from Biden becoming President seen in a week (short term)")
+
+longTermIncrease = ((dataframe.iloc[len(dataframe)-1]['Close'] - dataframe.iloc[0]['Close']) / (dataframe.iloc[0]['Close']))
+longTermIncrease = longTermIncrease * 100
+print(longTermIncrease, "overall percent increase during Biden presidency (long term)")
+
+maxTermIncrease = (dataframe['Close'].max() - dataframe.iloc[0]['Close']) / (dataframe.iloc[0]['Close'])
+maxTermIncrease = maxTermIncrease * 100
+print(maxTermIncrease, "percent increase seen at peak during Biden presidency (long term)")
+
+obamaTermIncrease = (dataObama.iloc[len(dataObama)-1]['Close'] - dataObama.iloc[0]['Close']) / (dataObama.iloc[0]['Close'])
+obamaTermIncrease = obamaTermIncrease * 100 
+print(obamaTermIncrease, "percent increase seen during course of Obama presidency (long term)")
 
 
+recs = tickerInfoForRecs.recommendations
 
-#st.title('Stock Forecast App')
+recObama = recs.copy().reset_index()
+recObama = recObama[recObama['Date'] <= '2017-01-19 12:54:43']
 
-stocks = ('GOOG', 'AAPL', 'MSFT', 'GME')
-selected_stock = "AAPL"
+recBiden = recs.copy().reset_index()
+recBiden = recBiden[recBiden['Date'] > '2021-01-15 10:34:45']
+recBiden
 
-n_years = 1
-period = n_years * 365
+countsOfGradeObama = pd.DataFrame(recObama.groupby('To Grade').count()['Firm']).reset_index()
+totalCountObama = sum(countsOfGradeObama['Firm'])
+countsOfGoodObama = countsOfGradeObama[(countsOfGradeObama['To Grade'] == 'Buy') | (countsOfGradeObama['To Grade'] == 'Outperform') | (countsOfGradeObama['To Grade'] == 'Overweight')]
+sumOfGoodObama = sum(countsOfGoodObama['Firm'])
 
+countsOfGradeBiden = pd.DataFrame(recBiden.groupby('To Grade').count()['Firm']).reset_index()
+totalCountBiden = sum(countsOfGradeObama['Firm'])
+countsOfGoodBiden = countsOfGradeBiden[(countsOfGradeBiden['To Grade'] == 'Buy') | (countsOfGradeBiden['To Grade'] == 'Outperform') | (countsOfGradeBiden['To Grade'] == 'Overweight')]
+sumOfGoodBiden = sum(countsOfGoodBiden['Firm'])
 
-def load_data(ticker):
-    START,TODAY = filter.query("test")
-    data = yf.download(ticker, START, TODAY)
-    data.reset_index(inplace=True)
-    return data
-
-
-def load_filter_complex(ticker):
-    databases = []
-    for i in filter.complex_query(ticker):
-        START = i[0]
-        TODAY = i[1]
-        print(type(START))
-        print("{},{}".format(START,TODAY))
-        data = yf.download(ticker, START, TODAY)
-        print("you are here")
-        data.reset_index(inplace=True)
-        databases.append(data)
-    return databases
-	
-data = load_data(selected_stock)
-print("***************************")
-filter = filter_manager()
-START = "2015-01-01"
-TODAY = (date.today()- timedelta(days = 1)).strftime("%Y-%m-%d")
-filter.add_filters("test",START, TODAY)
-filter.add_complex_filter("AAPL",[("2015-01-01",TODAY)])
-# print(filter.get_filters())
-# print(type(filter.complex_query("test_2")))
-# print(filter.isComplex("test"))
-
-
-load_filter_complex("AAPL")
-#
-
-# Predict forecast with Prophet.
-df_train = data[['Date','Close']]
-df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
-
-m = Prophet()
-m.fit(df_train,verbose=False)
-future = m.make_future_dataframe(periods=period)
-forecast = m.predict(future)
-#m.plot(forecast)
-plt.plot(forecast["yhat"])
-plt.title('{} Stock Price Prediction'.format(selected_stock))
-plt.xlabel('Time')
-plt.ylabel('{} Stock Price'.format(selected_stock))
-plt.savefig('STATIC/prediction.png')
+print((sumOfGoodObama / totalCountObama)*100, "- percent of Buy/Overweight/Market Outperform ratings during Obama Presidency.")
+print((sumOfGoodBiden / totalCountBiden)*100, "- percent of Buy/Overweight/Market Outperform ratings during Biden Presidency so far.")
