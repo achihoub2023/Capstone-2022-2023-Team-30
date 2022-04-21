@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "App.css";
+import "pages/styles/SearchPage.css";
 import StockList from "components/search/StockList";
 import SearchBar from "components/search/SearchBar";
 import { FStringSetter, IHeaderContext } from "interfaces";
@@ -14,9 +15,9 @@ function SearchPage({ setStockName }: Props) {
   useEffect(() => {
     setHeadingName("Search"); // throws some sort of error, still gotta figure that out
   }, []);
+
   return (
-    <div className="SearchPage">
-      <h1>Search For a Stock!</h1>
+    <div className="SearchPage container">
       <SearchBar />
       <StockList onStockClick={setStockName} />
     </div>
