@@ -1,18 +1,11 @@
 import { FStringSetter } from "interfaces";
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   onStockClick: FStringSetter;
 }
 
 export default function StockList(props: Props) {
-  return (
-    <div className="StockList">
-      {/* Placeholder for design */}
-      <ul id="list"></ul>
-    </div>
-  );
-
   const whenStockNameClicked = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>
   ): void => {
@@ -27,7 +20,6 @@ export default function StockList(props: Props) {
       const li = document.createElement("li");
       li.innerText = stockNames[stock];
       li.addEventListener("click", (e: any) => whenStockNameClicked(e));
-      console.log(li);
       stockList.appendChild(li);
     }
   };
@@ -35,6 +27,12 @@ export default function StockList(props: Props) {
   //Ran on component launch
   const componentDidMount = (): void => {
     addStocks(["Apple", "Google", "Microsoft", "Amazon"]);
-    console.log("StockList mounted");
   };
+
+  return (
+    <div className="StockList">
+      {/* Placeholder for design */}
+      <ul id="list"></ul>
+    </div>
+  );
 }
