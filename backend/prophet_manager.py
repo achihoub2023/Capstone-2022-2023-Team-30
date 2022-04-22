@@ -1,3 +1,4 @@
+
 #from information import client_id
 import requests
 import numpy as np
@@ -83,25 +84,27 @@ def main():
     noise = np.random.normal(0, 50, 63)
     plt.figure(figsize = (16,8))
     fc = pd.Series(mean_forecast_array + noise, index = pd.date_range(pd.DataFrame(dataframe.iloc[len(dataframe)-1]).columns[0], periods=63).tolist())
-    plt.plot(fc)
-    plt.plot(dataframe['Close'][-200:])
-    plt.savefig("STATIC/test.png")
+    oldValues = fc.to_list()
+    newValues = dataframe['Close'][-200:].to_list()
+    # plt.plot(fc)
+    # plt.plot(dataframe['Close'][-200:])
+    # plt.savefig("STATIC/test.png")
 
     immediateIncrease = ((dataForFindingImmediateGrowth.iloc[len(dataForFindingImmediateGrowth)-1]['Close'] - dataForFindingImmediateGrowth.iloc[0]['Close']) / (dataForFindingImmediateGrowth.iloc[0]['Close']))
     immediateIncrease = immediateIncrease*100
-    print(immediateIncrease, "immediate percent increase from Biden becoming President seen in a week (short term)")
+    overallImmediateIncrease =  "{}immediate percent increase from Biden becoming President seen in a week (short term)".format(immediateIncrease)
 
     longTermIncrease = ((dataframe.iloc[len(dataframe)-1]['Close'] - dataframe.iloc[0]['Close']) / (dataframe.iloc[0]['Close']))
     longTermIncrease = longTermIncrease * 100
-    print(longTermIncrease, "overall percent increase during Biden presidency (long term)")
+    overallBidenIncrease =  "{} overall percent increase during Biden presidency (long term)".format(longTermIncrease)
 
     maxTermIncrease = (dataframe['Close'].max() - dataframe.iloc[0]['Close']) / (dataframe.iloc[0]['Close'])
     maxTermIncrease = maxTermIncrease * 100
-    print(maxTermIncrease, "percent increase seen at peak during Biden presidency (long term)")
+    bidenIncrease = "{} percent increase seen at peak during Biden presidency (long term)".format(maxTermIncrease)
 
     obamaTermIncrease = (dataObama.iloc[len(dataObama)-1]['Close'] - dataObama.iloc[0]['Close']) / (dataObama.iloc[0]['Close'])
     obamaTermIncrease = obamaTermIncrease * 100 
-    print(obamaTermIncrease, "percent increase seen during course of Obama presidency (long term)")
+    obamaIncrease = "{} percent increase seen during course of Obama presidency (long term)".format(obamaTermIncrease)
 
 
     recs = tickerInfoForRecs.recommendations
@@ -111,7 +114,7 @@ def main():
 
     recBiden = recs.copy().reset_index()
     recBiden = recBiden[recBiden['Date'] > '2021-01-15 10:34:45']
-    recBiden
+    
 
     countsOfGradeObama = pd.DataFrame(recObama.groupby('To Grade').count()['Firm']).reset_index()
     totalCountObama = sum(countsOfGradeObama['Firm'])
@@ -123,7 +126,9 @@ def main():
     countsOfGoodBiden = countsOfGradeBiden[(countsOfGradeBiden['To Grade'] == 'Buy') | (countsOfGradeBiden['To Grade'] == 'Outperform') | (countsOfGradeBiden['To Grade'] == 'Overweight')]
     sumOfGoodBiden = sum(countsOfGoodBiden['Firm'])
 
-    print((sumOfGoodObama / totalCountObama)*100, "- percent of Buy/Overweight/Market Outperform ratings during Obama Presidency.")
-    print((sumOfGoodBiden / totalCountBiden)*100, "- percent of Buy/Overweight/Market Outperform ratings during Biden Presidency so far.")
+    obamaPerform = "{}- percent of Buy/Overweight/Market Outperform ratings during Obama Presidency.".format(100*sumOfGoodObama / totalCountObama)
+    bidenPerform= "{}- percent of Buy/Overweight/Market Outperform ratings during Biden Presidency so far.".format(100*sumOfGoodBiden / totalCountBiden)
     
+    #oldvalues = old data, newValues (noised up predictions)
+    return oldValues, newValues,obamaPerform, bidenPerform,obamaIncrease,bidenIncrease,overallBidenIncrease,overallImmediateIncrease
 main()

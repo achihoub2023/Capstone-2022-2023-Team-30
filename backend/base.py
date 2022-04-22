@@ -38,11 +38,24 @@ def sendData():
         f"{stockName} stock march 20, 2020 before:{dateLower} after:{dateUpper}"
     )
 
+    oldValues, newValues,obamaPerform, bidenPerform,obamaIncrease,bidenIncrease,overallBidenIncrease,overallImmediateIncrease = prophet_manager.main()
     # Send response to client
     response_body = {
         "result": json.dumps(list(results["title"].str.split("\n").map(lambda x: x[0]).T.to_dict().values())),
-        "about": json.dumps(list(results["link"].T.to_dict().values()))
+        "about": json.dumps(list(results["link"].T.to_dict().values())),
+        "old_values_of_Stock":oldValues,
+        "predicted_values_of_stock":newValues,
+        "obamaPerform":obamaPerform, 
+        "bidenPerform": bidenPerform,
+        "obamaIncrease": obamaIncrease,
+        "bidenIncrease": bidenIncrease,
+        "overallBidenIncrease":overallBidenIncrease,
+        "overallImmediateIncrease": overallImmediateIncrease
+        
     }
+
+
+
     return response_body
 
 
