@@ -4,6 +4,7 @@ from flask_cors import CORS
 import yfinance as yf
 from datetime import datetime, timedelta
 from ecommercetools import seo
+import prophet_manager
 import json
 api = Flask(__name__)
 CORS(api)
@@ -22,11 +23,11 @@ def my_profile():
 
 @api.route("/data", methods=["POST"])
 def sendData():
-    print('called 1sendData')
     # Preprocessing ------------------------------------------
     req = request.get_json()  # get request endpoint
     date = req['date']  # extract date attr from request
     stockName = req['stock']  # extract date attr from request
+    print(f"\n\nDate: {date}\nStock: {stockName}\n\n")
     # find day before requested date
     dateLower = (
         datetime.strptime(date, "%Y-%m-%d") - timedelta(days=1)).strftime('%Y/%m/%d')
@@ -38,24 +39,20 @@ def sendData():
         f"{stockName} stock march 20, 2020 before:{dateLower} after:{dateUpper}"
     )
 
-    oldValues, newValues,obamaPerform, bidenPerform,obamaIncrease,bidenIncrease,overallBidenIncrease,overallImmediateIncrease = prophet_manager.main()
+    oldValues, newValues, obamaPerform, bidenPerform, obamaIncrease, bidenIncrease, overallBidenIncrease, overallImmediateIncrease = prophet_manager.main()
     # Send response to client
     response_body = {
         "result": json.dumps(list(results["title"].str.split("\n").map(lambda x: x[0]).T.to_dict().values())),
         "about": json.dumps(list(results["link"].T.to_dict().values())),
-        "old_values_of_Stock":oldValues,
-        "predicted_values_of_stock":newValues,
-        "obamaPerform":obamaPerform, 
+        "old_values_of_Stock": oldValues,
+        "predicted_values_of_stock": newValues,
+        "obamaPerform": obamaPerform,
         "bidenPerform": bidenPerform,
         "obamaIncrease": obamaIncrease,
         "bidenIncrease": bidenIncrease,
-        "overallBidenIncrease":overallBidenIncrease,
+        "overallBidenIncrease": overallBidenIncrease,
         "overallImmediateIncrease": overallImmediateIncrease
-        
     }
-
-
-
     return response_body
 
 

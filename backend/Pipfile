@@ -8,6 +8,8 @@ flask = "*"
 ecommercetools = "*"
 yfinance = "*"
 flask-cors = "*"
+plotly = "*"
+statsmodels = "*"
 
 [dev-packages]
 
