@@ -24,6 +24,7 @@ export default function App() {
             path="search"
             element={<SearchPage setStockName={setStockName} />}
           />
+          <Route path="stock:id" element={<Tutorial />} />
         </Route>
       </Routes>
     </Router>

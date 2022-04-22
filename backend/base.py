@@ -26,6 +26,7 @@ def sendData():
     # Preprocessing ------------------------------------------
     req = request.get_json()  # get request endpoint
     date = req['date']  # extract date attr from request
+    stockName = req['stock']  # extract date attr from request
     # find day before requested date
     dateLower = (
         datetime.strptime(date, "%Y-%m-%d") - timedelta(days=1)).strftime('%Y/%m/%d')
@@ -34,7 +35,7 @@ def sendData():
 
     # Make request to google search api
     results = seo.get_serps(
-        f"Spotify stock march 20, 2020 before:{dateLower} after:{dateUpper}"
+        f"{stockName} stock march 20, 2020 before:{dateLower} after:{dateUpper}"
     )
 
     # Send response to client
