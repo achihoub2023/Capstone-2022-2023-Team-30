@@ -4,6 +4,7 @@ import { useState } from "react";
 import Chart from "components/stock/Chart";
 import Forecast from "components/stock/Forecast";
 import ArticleList from "components/stock/ArticleList";
+import "pages/styles/StockDataPage.css";
 
 type Props = {
   stockName: string; // The name of the stock
@@ -21,16 +22,22 @@ export default function StockData({ stockName }: Props) {
 
   return (
     <>
-      <h1 className="stockTitle">{stockName}</h1>
-      {/* <Outlet /> Articles, Forecast, Chart */}
+      <div className="StockDataPage wide-container">
+        <h1 className="stockTitle">{stockName}</h1>
+        {/* <Outlet /> Articles, Forecast, Chart */}
 
-      <Link to={"/pages/articles"}>
-        <button className="articles-button">Articles</button>
-      </Link>
+        <Link to={"/pages/articles"}>
+          <button className="large-rounded-btn dark-primary-bg white-text">
+            Articles
+          </button>
+        </Link>
 
-      <Link to={"/pages/forecast"}>
-        <button className="forecast-button">Forecast</button>
-      </Link>
+        <Link to={"/pages/forecast"}>
+          <button className="large-rounded-btn dark-secondary-bg white-text">
+            Forecast
+          </button>
+        </Link>
+      </div>
     </>
   );
 }

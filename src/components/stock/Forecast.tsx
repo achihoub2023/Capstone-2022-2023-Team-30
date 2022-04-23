@@ -6,7 +6,7 @@ type Props = {
 
 export default function Forecast({ stockName }: Props) {
   return (
-    <div className="Forcast">
+    <div className="Forcast wide-container">
       <h1>Forecast</h1>
     </div>
   );

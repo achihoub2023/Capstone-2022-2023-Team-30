@@ -6,7 +6,7 @@ type Props = {
 
 function Chart({ stockName }: Props) {
   return (
-    <div className="Chart">
+    <div className="Chart wide-container">
       <h1>Chart</h1>
     </div>
   );

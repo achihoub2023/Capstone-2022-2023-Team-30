@@ -1,15 +1,17 @@
 import React from "react";
+import { useFetch } from "react-async";
+import articles from "data/stockData/googleArticles.json";
 
 type Props = {
   stockName: string; // The name of the stock
 };
 
-function ArticleList({ stockName }: Props) {
+export default function ArticleList({ stockName }: Props) {
+  console.log(articles);
+
   return (
-    <div className="ArticleList">
+    <div className="ArticleList wide-container">
       <h1>Article List</h1>
     </div>
   );
 }
-
-export default ArticleList;
