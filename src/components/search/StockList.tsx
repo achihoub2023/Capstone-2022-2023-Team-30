@@ -1,5 +1,6 @@
 import { FStringSetter } from "interfaces";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import stocks from "data/DefaultStocks";
 import { Link } from "react-router-dom";
 
@@ -7,12 +8,26 @@ interface Props {
   setStockName: FStringSetter;
 }
 
-export default function StockList({setStockName}: Props) {
+export default function StockList(props: Props) {
+  const navigate = useNavigate();
+  const whenStockNameClicked = (
+    e: React.MouseEvent<HTMLHeadingElement, MouseEvent>
+  ): void => {
+    const currentStock: string | null | undefined =
+      e.currentTarget.querySelector(".stock-name")?.textContent;
+    if (currentStock) {
+      props.setStockName(currentStock);
+      navigate(`/pages/stock`);
+    } else {
+      console.error(
+        "something went wrong in capturing the stock you clicked, please try again"
+      );
+    }
+  };
   return (
     <div className="StockList">
       {stocks.map((stock, index) => (
-        <Link to={"/pages/stock:" + stock.ticker} onClick={() => setStockName(stock.ticker)}>
-        <div className="stock" key={index}>
+        <div className="stock" key={index} onClick={whenStockNameClicked}>
           <img src={stock.icon} alt="stock icon" />
           <div className="stock-text">
             <div className="top">
@@ -24,30 +39,7 @@ export default function StockList({setStockName}: Props) {
             <p className="stock-desc">{stock.description}</p>
           </div>
         </div>
-        </Link>
       ))}
     </div>
   );
-  // const whenStockNameClicked = (
-  //   e: React.MouseEvent<HTMLLIElement, MouseEvent>
-  // ): void => {
-  //   console.log(e.currentTarget.innerText);
-  //   props.onStockClick(e.currentTarget.innerText);
-  // };
-
-  // //Function to add elements to the list
-  // const addStocks = (stockNames: string[]): void => {
-  //   for (const stock in stockNames) {
-  //     const stockList = document.getElementById("list")!;
-  //     const li = document.createElement("li");
-  //     li.innerText = stockNames[stock];
-  //     li.addEventListener("click", (e: any) => whenStockNameClicked(e));
-  //     stockList.appendChild(li);
-  //   }
-  // };
-
-  // //Ran on component launch
-  // const componentDidMount = (): void => {
-  //   addStocks(["Apple", "Google", "Microsoft", "Amazon"]);
-  // };
 }

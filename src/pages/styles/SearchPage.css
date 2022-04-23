@@ -4,12 +4,13 @@
 .SearchPage {
   --search-height: 3rem;
   text-align: center;
+  padding-top: 1em;
 }
 
 /* Search Bar */
 .SearchBar {
   position: relative;
-  margin: 2em auto;
+  margin: 1em auto 2em;
   display: flex;
   max-height: var(--search-height);
   border: 1px solid var(--dark-primary, black);
@@ -40,6 +41,7 @@
   border: 1px solid var(--dark-primary, black);
   border-radius: 0.5rem;
   overflow: hidden;
+  overflow-y: scroll;
   max-height: 60vh;
 }
 .stock {

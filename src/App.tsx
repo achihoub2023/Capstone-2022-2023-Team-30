@@ -25,7 +25,7 @@ export default function App() {
             path="search"
             element={<SearchPage setStockName={setStockName} />}
           />
-          <Route path="stock:id" element={<StockData stockName={stock} onBackClick={() => {}} />} />
+          <Route path="stock" element={<StockData stockName={stock} />} />
         </Route>
       </Routes>
     </Router>

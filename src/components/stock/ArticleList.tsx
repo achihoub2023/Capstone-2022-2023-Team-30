@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 
 type Props = {
   stockName: string; // The name of the stock
-  onBackClick: () => void; // Back button
 };
 
-function ArticleList({ stockName, onBackClick}: Props) {
+function ArticleList({ stockName }: Props) {
   return (
     <div className="ArticleList">
-        <h1>{stockName}'s Article List</h1>
+      <h1>{stockName}'s Article List</h1>
     </div>
   );
 }
