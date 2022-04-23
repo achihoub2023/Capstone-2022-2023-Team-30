@@ -14,7 +14,7 @@ function SearchBar({ setStockName }: Props) {
     <div className="SearchBar">
       <input 
         type="text" 
-        placeholder="Type a stock name..."  
+        placeholder="Type a stock ticker..."  
         onChange={(e) => {
           setStockName(e.target.value);
           link = "/pages/stock:" + e.target.value;
