@@ -7,7 +7,7 @@ type Props = {
 export default function Forecast({ stockName }: Props) {
   return (
     <div className="Forcast">
-      <h1>{stockName}'s Forecast</h1>
+      <h1>Forecast</h1>
     </div>
   );
 }

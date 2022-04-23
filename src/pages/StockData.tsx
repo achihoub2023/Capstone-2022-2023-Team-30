@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, Outlet, Route } from "react-router-dom";
 import { useState } from "react";
 import Chart from "components/stock/Chart";
 import Forecast from "components/stock/Forecast";
@@ -19,10 +20,17 @@ export default function StockData({ stockName }: Props) {
   const [page, changePage] = useState(PageToShow.Chart);
 
   return (
-    <div className="StockData">
-      {page === PageToShow.Chart && <Chart stockName={stockName} />}
-      {page === PageToShow.Forecast && <Forecast stockName={stockName} />}
-      {page === PageToShow.Articles && <ArticleList stockName={stockName} />}
-    </div>
+    <>
+      <h1 className="stockTitle">{stockName}</h1>
+      {/* <Outlet /> Articles, Forecast, Chart */}
+
+      <Link to={"/pages/articles"}>
+        <button className="articles-button">Articles</button>
+      </Link>
+
+      <Link to={"/pages/forecast"}>
+        <button className="forecast-button">Forecast</button>
+      </Link>
+    </>
   );
 }

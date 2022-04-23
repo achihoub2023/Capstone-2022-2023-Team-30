@@ -7,7 +7,7 @@ type Props = {
 function ArticleList({ stockName }: Props) {
   return (
     <div className="ArticleList">
-      <h1>{stockName}'s Article List</h1>
+      <h1>Article List</h1>
     </div>
   );
 }

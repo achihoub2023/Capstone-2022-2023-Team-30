@@ -2,7 +2,6 @@ import { FStringSetter } from "interfaces";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import stocks from "data/DefaultStocks";
-import { Link } from "react-router-dom";
 
 interface Props {
   setStockName: FStringSetter;
@@ -10,6 +9,7 @@ interface Props {
 
 export default function StockList(props: Props) {
   const navigate = useNavigate();
+
   const whenStockNameClicked = (
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>
   ): void => {
@@ -24,6 +24,7 @@ export default function StockList(props: Props) {
       );
     }
   };
+
   return (
     <div className="StockList">
       {stocks.map((stock, index) => (
