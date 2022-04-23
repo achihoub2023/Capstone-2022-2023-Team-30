@@ -1,5 +1,4 @@
 import React from "react";
-import { useFetch } from "react-async";
 import articles from "data/stockData/googleArticles.json";
 
 type Props = {
