@@ -6,6 +6,7 @@ import "App.css";
 import Tutorial from "pages/Tutorial";
 import SearchPage from "pages/SearchPage";
 import { FStringSetter } from "interfaces";
+import StockData from "pages/StockData";
 
 export default function App() {
   const [stock, setStock] = useState("");
@@ -24,7 +25,7 @@ export default function App() {
             path="search"
             element={<SearchPage setStockName={setStockName} />}
           />
-          <Route path="stock:id" element={<Tutorial />} />
+          <Route path="stock:id" element={<StockData stockName={stock} onBackClick={() => {}} />} />
         </Route>
       </Routes>
     </Router>

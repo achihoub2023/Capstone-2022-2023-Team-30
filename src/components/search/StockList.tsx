@@ -1,15 +1,17 @@
 import { FStringSetter } from "interfaces";
 import React, { useEffect } from "react";
 import stocks from "data/DefaultStocks";
+import { Link } from "react-router-dom";
 
 interface Props {
-  onStockClick: FStringSetter;
+  setStockName: FStringSetter;
 }
 
-export default function StockList(props: Props) {
+export default function StockList({setStockName}: Props) {
   return (
     <div className="StockList">
       {stocks.map((stock, index) => (
+        <Link to={"/pages/stock:" + stock.ticker} onClick={() => setStockName(stock.ticker)}>
         <div className="stock" key={index}>
           <img src={stock.icon} alt="stock icon" />
           <div className="stock-text">
@@ -22,6 +24,7 @@ export default function StockList(props: Props) {
             <p className="stock-desc">{stock.description}</p>
           </div>
         </div>
+        </Link>
       ))}
     </div>
   );

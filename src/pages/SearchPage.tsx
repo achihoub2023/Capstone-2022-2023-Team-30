@@ -18,8 +18,8 @@ function SearchPage({ setStockName }: Props) {
 
   return (
     <div className="SearchPage container">
-      <SearchBar />
-      <StockList onStockClick={setStockName} />
+      <SearchBar setStockName={setStockName} />
+      <StockList setStockName={setStockName} />
     </div>
   );
 }
