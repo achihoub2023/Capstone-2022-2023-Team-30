@@ -10,9 +10,12 @@ All filters are stored in an overraching dict
 """
 
 from datetime import date
+import investpy
+import yfinance as yf  
+import matplotlib.pyplot as plt
 
 
-class filter_manager:
+class commodities_data:
     # constructor
     def __init__(self):
         self.list_of_filters = {}
@@ -48,15 +51,20 @@ class filter_manager:
 
 
 def main():
-    filter = filter_manager()
-    START = "2015-01-01"
-    TODAY = date.today().strftime("%Y-%m-%d")
-    filter.add_filters("test", START, TODAY)
-    filter.add_complex_filter(
-        "test_2", [("2016-07-10", "2020-04-06"), ("2019-05-07", "2020-02-06")])
-    print(filter.get_filters())
-    print(type(filter.complex_query("test_2")))
-    print(filter.isComplex("test"))
-
+    # filter = filter_manager()
+    # START = "2015-01-01"
+    # TODAY = date.today().strftime("%Y-%m-%d")
+    # filter.add_filters("test", START, TODAY)
+    # filter.add_complex_filter(
+    #     "test_2", [("2016-07-10", "2020-04-06"), ("2019-05-07", "2020-02-06")])
+    # print(filter.get_filters())
+    # print(type(filter.complex_query("test_2")))
+    # Get the data for the SPY ETF by specifying the stock ticker, start date, and end date
+    # data = yf.download('GNF=F','2015-01-01','2020-01-01')
+    # # Plot the close prices
+    # print(data.head())
+    # data["Adj Close"].plot()
+    # plt.show()
+    print()
 
 main()
