@@ -43,6 +43,15 @@ const stocks: Array<Stock> = [
     icon: "https://logo.clearbit.com/modernatx.com",
     description: "Moderna Inc",
   },
+
+  {
+    name: "CL:NMX",
+    price: 77.49,
+    icon: "https://logo.clearbit.com/bp.com/",
+    description: "Crude Oil",
+  },
+
+
 ];
 
 export default stocks;

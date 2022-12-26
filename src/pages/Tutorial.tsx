@@ -27,13 +27,12 @@ function Tutorial() {
         </p>
         <p>
           Our machine learning model takes this historical data linking past
-          events to corresponding stock trends to make predictions about future
-          motion of similar stocks.
+          events to corresponding stock trends to make predictions about potential exposure and future variance.
         </p>
         <b>To Learn About Stock History:</b>
         <ol className="instructions">
           <li className="instruction">
-            Type a stock name into the search bar and select your stock.
+            Type a stock name into the search bar and select a commodity of your choice.
           </li>
           <li className="instruction">
             Use the sliders and buttons to select a time frame.
