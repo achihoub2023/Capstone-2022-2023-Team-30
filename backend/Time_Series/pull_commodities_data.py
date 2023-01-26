@@ -51,20 +51,20 @@ class commodities_data:
 
 
 def main():
-    # filter = filter_manager()
-    # START = "2015-01-01"
-    # TODAY = date.today().strftime("%Y-%m-%d")
+    #filter = filter_manager()
+    START = "2015-01-01"
+    TODAY = date.today().strftime("%Y-%m-%d")
     # filter.add_filters("test", START, TODAY)
     # filter.add_complex_filter(
     #     "test_2", [("2016-07-10", "2020-04-06"), ("2019-05-07", "2020-02-06")])
     # print(filter.get_filters())
     # print(type(filter.complex_query("test_2")))
-    # Get the data for the SPY ETF by specifying the stock ticker, start date, and end date
-    # data = yf.download('GNF=F','2015-01-01','2020-01-01')
-    # # Plot the close prices
-    # print(data.head())
-    # data["Adj Close"].plot()
-    # plt.show()
+    #Get the data for the SPY ETF by specifying the stock ticker, start date, and end date
+    data = yf.download('GNF=F','2015-01-01','2020-01-01')
+    # Plot the close prices
+    print(data.head())
+    data["Adj Close"].plot()
+    plt.show()
     print()
 
 main()
