@@ -4,8 +4,10 @@ from flask_cors import CORS
 import yfinance as yf
 from datetime import datetime, timedelta
 from ecommercetools import seo
-import prophet_manager
+#import prophet_manager
 import json
+from datetime import date
+
 api = Flask(__name__)
 CORS(api)
 
@@ -70,6 +72,35 @@ def sendStockData():
         "about": "This is a test for post request"
     }
 
+    return response_body
+
+
+@api.route("/time_series_default", methods = ["GET","POST"])
+def default_commodities():
+    print("called default")
+    
+    START = "2015-01-01"
+    TODAY = date.today().strftime("%Y-%m-%d")
+    # filter.add_filters("test", START, TODAY)
+    # filter.add_complex_filter(
+    #     "test_2", [("2016-07-10", "2020-04-06"), ("2019-05-07", "2020-02-06")])
+    # print(filter.get_filters())
+    # print(type(filter.complex_query("test_2")))
+    #Get the data for the SPY ETF by specifying the stock ticker, start date, and end date
+    data = yf.download('GNF=F','2015-01-01','2020-01-01')
+    # Plot the close prices
+    time_series = data["Adj Close"].round(decimals = 2).to_dict()
+    indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
+    x_axis = list(indexed_series.keys())
+    x_axis_body= "".join(str(e )+"," for e in x_axis)[:-1]
+    y_axis = list(indexed_series.values())
+    y_axis_body= "".join(str(e)+"," for e in y_axis)[:-1]
+    response_body = {
+        "x": x_axis_body,
+        "y":y_axis_body
+    }
+
+    
     return response_body
 
 
