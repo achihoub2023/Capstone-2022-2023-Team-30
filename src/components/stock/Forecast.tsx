@@ -64,8 +64,6 @@ type Props = {
 
 
 
-
-
 export default function Forecast({ stockName }: Props) {
 
   const [resp, setData] = useState({});
@@ -73,20 +71,24 @@ export default function Forecast({ stockName }: Props) {
   useEffect(() => {
     getData().then(resp => setData(resp));
   }, []);
+  
+
   const processed = JSON.parse(JSON.stringify(resp));
-  const x_axis = "[" + processed.x + "]".split(',').map(function(n) {return Number(n);});
-  const y_axis ="[" + processed.y + "]".split(',').map(function(n) {return Number(n);});
-  const x_axis_2 = x_axis.slice(0,10);
-  console.log(x_axis)
-  console.log(x_axis_2)
+  const x_axis = processed.x?.split(",");
+  const y_axis = processed.y?.split(",").map(Number);
+//   const y_axis = stringToIntList(processed.y);
+  // const x_axis_2 = x_axis.slice(0,10);
+  console.log(x_axis);
+  // console.log(x_axis_2);
+  // console.log(y_axis);
 
 
 
   const data = {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    labels: x_axis,
     datasets: [
       {
-        label: 'Dataset 1',
+        label:'Current Price',
         data: y_axis,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -104,9 +106,30 @@ export default function Forecast({ stockName }: Props) {
       },
       title: {
         display: true,
-        text: 'Chart.js Line Chart',
+        text: 'Forecast',
       },
+  },
+
+    scales: {
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Stock Price',
+        },
     },
+
+    x: {
+      display: true,
+      title: {
+        display: true,
+        text: 'Date',
+      },
+  },
+  }
+
+
+
   };
 
   return (

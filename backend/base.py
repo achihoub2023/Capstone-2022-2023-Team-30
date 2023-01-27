@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from ecommercetools import seo
 #import prophet_manager
 import json
+import pandas as pd
 from datetime import date
 
 api = Flask(__name__)
@@ -89,17 +90,21 @@ def default_commodities():
     #Get the data for the SPY ETF by specifying the stock ticker, start date, and end date
     data = yf.download('GNF=F','2015-01-01','2020-01-01')
     # Plot the close prices
-    time_series = data["Adj Close"].round(decimals = 2).to_dict()
+    time_series = data["Adj Close"].to_dict()
+    
+   #print(time_series)
+    
     indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
-    x_axis = list(indexed_series.keys())
+    x_axis = pd.to_datetime(data.index).strftime("%Y-%m-%d").tolist()
     x_axis_body= "".join(str(e )+"," for e in x_axis)[:-1]
     y_axis = list(indexed_series.values())
+    #out = time_series.index.to_pydatetime()
+    #print(out)
     y_axis_body= "".join(str(e)+"," for e in y_axis)[:-1]
     response_body = {
         "x": x_axis_body,
-        "y":y_axis_body
+        "y": y_axis_body
     }
-
     
     return response_body
 
