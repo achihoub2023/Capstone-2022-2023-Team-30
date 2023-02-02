@@ -9,6 +9,7 @@ import json
 import pandas as pd
 import re
 from googleapiclient.discovery import build
+import config
 from datetime import date
 
 api = Flask(__name__)
@@ -16,7 +17,7 @@ CORS(api)
 
 
 def googleSearch(query,numberOfResults):
-    api_key = "AIzaSyBE7Dphy-kgwtjVkOWHJXRHIPj5FIAca5A"
+    api_key = config.api_key
     
     
 
