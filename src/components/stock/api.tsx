@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const backendPostUrl = "http://localhost:3001/backend";  // Set backend post URL here
+const backendPostUrl = "http://localhost:8081/time_series_default";  // Set backend post URL here
 const backendGetUrl = "http://localhost:3001/backendGet";  // Set backend get URL here
 
 export const getData = async () => {
     try {
-      const response = await axios.get("http://172.31.204.181:8081/time_series_default");
+      const response = await axios.get("http://localhost:8081/time_series_default");
       const data = response.data;
     //   console.log("data")
     //   console.log(data.x)
@@ -15,14 +15,26 @@ export const getData = async () => {
     }
 };
 
-export const postData = async (data:string) => {
-  fetch(backendPostUrl, {
+export const postData = async (data:string, url:string) => {
+  console.log(data);
+  try {
+      const response = await fetch(url, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({data})
+    body: JSON.stringify({stockName: data})
   });
+    console.log(response);
+    const data_2 = response.json();
+    console.log(data_2);
+  //   console.log("data")
+  //   console.log(data.x)
+    return data_2;
+  } catch (error) {
+    console.error(error);
+  }
+
 
   // const backendData = await getDataFromBackend();  // This will get the stock data from the backend. Not tested yet.
   // console.log(backendData);

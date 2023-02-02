@@ -45,12 +45,19 @@ const stocks: Array<Stock> = [
   },
 
   {
-    name: "CL:NMX",
+    name: "ES=F",
     price: 77.49,
     icon: "https://logo.clearbit.com/bp.com/",
     description: "Crude Oil",
   },
 
+
+  {
+    name: "GC=F",
+    price: 66.66,
+    icon: "https://logo.clearbit.com/bp.com/",
+    description: "Crude Oil",
+  },
 
 ];
 

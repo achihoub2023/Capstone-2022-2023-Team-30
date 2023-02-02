@@ -44,7 +44,6 @@ ChartJS.register(
   Legend
 );
 
-// const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
 type Props = {
   stockName: string; // The name of the stock
@@ -53,21 +52,16 @@ type Props = {
 export default function Forecast({ stockName }: Props) {
 
   const [resp, setData] = useState({});
-
+  const url = "http://localhost:8081/time_series_default"
+  // console.log({props.stockName});
   useEffect(() => {
-    getData().then(resp => setData(resp));
-    postData(stockName);
+    postData(stockName,url).then(resp => setData(resp));
   }, []);
   
 
   const processed = JSON.parse(JSON.stringify(resp));
   const x_axis = processed.x?.split(",");
   const y_axis = processed.y?.split(",").map(Number);
-  // const y_axis = stringToIntList(processed.y);
-  // const x_axis_2 = x_axis.slice(0,10);
-  console.log(x_axis);
-  // console.log(x_axis_2);
-  // console.log(y_axis);
 
   const data = {
     labels: x_axis,
@@ -113,7 +107,7 @@ export default function Forecast({ stockName }: Props) {
 
   return (
     <div className="Forcast wide-container">
-      <h1>Forecast</h1>
+      <h1>Forecast for: {stockName}</h1>
       <Line options={options} data={data} />
 
     </div>
