@@ -18,9 +18,6 @@ CORS(api)
 
 def googleSearch(query,numberOfResults):
     api_key = config.api_key
-    
-    
-
     resource = build("customsearch", 'v1', developerKey=api_key).cse()
     result = resource.list(q=query, cx='f1df5b7295d8b453d').execute()
     #results = result['items'][0:numberOfResults]
