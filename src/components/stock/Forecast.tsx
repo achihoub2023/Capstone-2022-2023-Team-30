@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { getData } from './api';
+import {postData} from './api'
 
 import {
   Chart as ChartJS,
@@ -12,10 +13,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
-
-
-
 
 // const res = axios({
 //   method: "GET",
@@ -35,11 +32,6 @@ import {
 
 // )
 
-
-
-
-
-
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -54,15 +46,9 @@ ChartJS.register(
 
 // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-
-
 type Props = {
   stockName: string; // The name of the stock
 };
-
-
-
-
 
 export default function Forecast({ stockName }: Props) {
 
@@ -70,19 +56,18 @@ export default function Forecast({ stockName }: Props) {
 
   useEffect(() => {
     getData().then(resp => setData(resp));
+    postData(stockName);
   }, []);
   
 
   const processed = JSON.parse(JSON.stringify(resp));
   const x_axis = processed.x?.split(",");
   const y_axis = processed.y?.split(",").map(Number);
-//   const y_axis = stringToIntList(processed.y);
+  // const y_axis = stringToIntList(processed.y);
   // const x_axis_2 = x_axis.slice(0,10);
   console.log(x_axis);
   // console.log(x_axis_2);
   // console.log(y_axis);
-
-
 
   const data = {
     labels: x_axis,
@@ -96,8 +81,6 @@ export default function Forecast({ stockName }: Props) {
     ],
   };
   
-  
-  
   const options = {
     responsive: true,
     plugins: {
@@ -108,8 +91,7 @@ export default function Forecast({ stockName }: Props) {
         display: true,
         text: 'Forecast',
       },
-  },
-
+    },
     scales: {
       y: {
         display: true,
@@ -117,32 +99,23 @@ export default function Forecast({ stockName }: Props) {
           display: true,
           text: 'Stock Price',
         },
-    },
-
-    x: {
-      display: true,
-      title: {
-        display: true,
-        text: 'Date',
       },
-  },
-  }
 
-
-
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Date',
+        },
+      },
+    }
   };
 
   return (
-
-    
     <div className="Forcast wide-container">
       <h1>Forecast</h1>
       <Line options={options} data={data} />
 
     </div>
-
-
-
-
   );
 }
