@@ -16,7 +16,7 @@ CORS(api)
 
 
 def googleSearch(query,numberOfResults):
-    api_key = "AIzaSyBE7Dphy-kgwtjVkOWHJXRHIPj5FIAca5A"
+    api_key = ""
     
     
 
