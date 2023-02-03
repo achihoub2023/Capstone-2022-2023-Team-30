@@ -20,8 +20,6 @@ def googleSearch(query,numberOfResults):
     api_key = config.api_key
     resource = build("customsearch", 'v1', developerKey=api_key).cse()
     result = resource.list(q=query, cx='f1df5b7295d8b453d').execute()
-    #results = result['items'][0:numberOfResults]
-    #results = result['items'][0]
     links = [0 for _ in range(numberOfResults)]
     titles = [0 for _ in range(numberOfResults)]
     for i in range(numberOfResults):
@@ -78,9 +76,7 @@ def sendData():
 
 @api.route("/stockExample", methods=["POST"])
 def sendStockData():
-    print('called sendStockData')
     req = request.get_json()
-    print(req)
     stockName = req['name']
     stock = yf.Ticker(stockName)
     print(stock.get_info().keys())
@@ -95,12 +91,11 @@ def sendStockData():
 @api.route("/searchResults", methods = ["POST"])
 def sendSearch():
     stockName = json.loads(request.get_data())["stockName"]
-
     query = stockName
     numberOfResults = 5
     titles,links = googleSearch(query,numberOfResults)
     list_of_articles = []
-    for i in range(len(titles)):
+    for i in range(numberOfResults):
         json_body = {
             "link": links[i],
             "title":titles[i]
@@ -110,7 +105,6 @@ def sendSearch():
     response_body = {
         "articles":list_of_articles
     }
-    print(response_body)
     return response_body
 
 @api.route("/time_series_default", methods = ["GET","POST"])

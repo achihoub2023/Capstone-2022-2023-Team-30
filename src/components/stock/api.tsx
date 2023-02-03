@@ -16,7 +16,6 @@ export const getData = async () => {
 };
 
 export const postData = async (data:string, url:string) => {
-  console.log(data);
   try {
       const response = await fetch(url, {
     method: 'POST',
@@ -25,11 +24,7 @@ export const postData = async (data:string, url:string) => {
     },
     body: JSON.stringify({stockName: data})
   });
-    console.log(response);
     const data_2 = response.json();
-    console.log(data_2);
-  //   console.log("data")
-  //   console.log(data.x)
     return data_2;
   } catch (error) {
     console.error(error);
