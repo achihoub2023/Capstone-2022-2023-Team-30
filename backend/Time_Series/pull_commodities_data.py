@@ -18,7 +18,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 import datetime
-
+import config
 class commodities_data:
     # constructor
     def __init__(self):
@@ -28,7 +28,7 @@ class commodities_data:
         #timeframe = 'Weekly'
         capitalname = timeframe.upper()
         # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-        url = 'https://www.alphavantage.co/query?function=TIME_SERIES_'+capitalname+'&symbol='+company+'&apikey=5TTC4NHMAINPHORT'
+        url = 'https://www.alphavantage.co/query?function=TIME_SERIES_'+capitalname+'&symbol='+company+'&apikey='+config.nasdaq_key
         r = requests.get(url)
         dictionary = r.json()
         dictionary = dictionary[timeframe+' Time Series']
