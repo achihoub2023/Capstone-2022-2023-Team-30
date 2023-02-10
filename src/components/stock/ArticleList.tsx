@@ -11,6 +11,7 @@ interface article {
 
 type Props = {
   stockName: string; // The name of the stock
+  actualStockName: string;
 };
 
 export default function ArticleList({ stockName }: Props) {
