@@ -13,58 +13,59 @@ from datetime import date
 import investpy
 import yfinance as yf  
 import matplotlib.pyplot as plt
-
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+import json
+import datetime
 
 class commodities_data:
     # constructor
     def __init__(self):
-        self.list_of_filters = {}
+        pass
+    #def stockhistory(company,startyear,startmonth,startday,endyear,endmonth,endday):
+    def stockhistory(self,company,timeframe,start,end):
+        #timeframe = 'Weekly'
+        capitalname = timeframe.upper()
+        # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+        url = 'https://www.alphavantage.co/query?function=TIME_SERIES_'+capitalname+'&symbol='+company+'&apikey=5TTC4NHMAINPHORT'
+        r = requests.get(url)
+        dictionary = r.json()
+        dictionary = dictionary[timeframe+' Time Series']
 
-    # add a filter with a single tuple with start and end date
-    def add_filters(self, name, start, end):
-        self.list_of_filters[name] = (start, end)
+        xAxis = [key for key, value in dictionary.items()]
+        #start = startyear +'-' + startmonth + '-'+startday
+        #end = endyear +'-' + endmonth + '-'+endday
+        newyAxis = [0 for _ in range(len(xAxis))]
+        newxAxis = [0 for _ in range(len(xAxis))]
+        counter=  0
+        for date in xAxis:
+        
 
-    # add a complex filter by passing in a list of tuples, each tuple has a start and end date
-    def add_complex_filter(self, name, list_of_dates):
-        self.list_of_filters[name] = list_of_dates
+            if((date>start) & (date<end)):
+                newxAxis[counter] = date
+                newyAxis[counter] = float(dictionary[date]['1. open'])
+                counter+=1
+    
+        xAxis = newxAxis[0:counter]
+        yAxis = newyAxis[0:counter]
+        plt.grid(True)
 
-    # return start and end date for the non complex filters
-    def query(self, name):
-        return self.list_of_filters[name][0], self.list_of_filters[name][1]
+        # ## LINE GRAPH ##
+        # plt.plot(xAxis,yAxis, color='maroon', marker='o')
+        # plt.xlabel('variable')
+        # plt.ylabel('value')
 
-    # complex queries need to be handled on the model end
-    def complex_query(self, name):
-        return self.list_of_filters[name]
 
-    # check if a filter is complex
-    def isComplex(self, name):
-        if type(self.list_of_filters[name]) == list:
-            return True
-        else:
-            return False
-
-    # utility function to show available filters
-    def get_filters(self):
-        return self.list_of_filters.keys()
+        # plt.show()
+        return xAxis,yAxis
 
 # main method for testing
 
 
 def main():
-    #filter = filter_manager()
-    START = "2015-01-01"
-    TODAY = date.today().strftime("%Y-%m-%d")
-    # filter.add_filters("test", START, TODAY)
-    # filter.add_complex_filter(
-    #     "test_2", [("2016-07-10", "2020-04-06"), ("2019-05-07", "2020-02-06")])
-    # print(filter.get_filters())
-    # print(type(filter.complex_query("test_2")))
-    #Get the data for the SPY ETF by specifying the stock ticker, start date, and end date
-    data = yf.download('GNF=F','2015-01-01','2020-01-01')
-    # Plot the close prices
-    print(data.head())
-    data["Adj Close"].plot()
-    plt.show()
-    print()
+    tester = commodities_data()
+    tester.stockhistory('GC=F','Weekly','2017-02-11','2018-01-02')
+
 
 main()
