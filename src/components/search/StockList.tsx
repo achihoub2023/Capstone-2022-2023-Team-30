@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import stocks from "data/DefaultStocks";
 
 interface Props {
-  setStockName: FStringSetter;
+  stockTickerSetter: FStringSetter;
+  nameOfStockSetter: FStringSetter;
 }
 
 export default function StockList(props: Props) {
@@ -16,7 +17,8 @@ export default function StockList(props: Props) {
     const currentStock: string | null | undefined =
       e.currentTarget.querySelector(".stock-name")?.textContent;
     if (currentStock) {
-      props.setStockName(currentStock);
+      props.stockTickerSetter(currentStock);
+      props.nameOfStockSetter("Stock Name: " + currentStock); // Just a test to see if prop is working - must be changed later
       navigate(`/pages/stock`);
     } else {
       console.error(

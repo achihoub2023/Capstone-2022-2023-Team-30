@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
-  setStockName: FStringSetter; // Set stock name state in App.tsx to stock name picked in this component
+  stockTickerSetter: FStringSetter; // Set stock name state in App.tsx to stock name picked in this component
+  nameOfStockSetter: FStringSetter;
 };
 
-function SearchBar({ setStockName }: Props) {
+function SearchBar({stockTickerSetter, nameOfStockSetter}: Props) {
   // const [inputValue, setInputValue] = useState("");
   let link = "/pages/stock:";
 
@@ -16,18 +17,19 @@ function SearchBar({ setStockName }: Props) {
         type="text" 
         placeholder="Type a stock ticker..."  
         onChange={(e) => {
-          setStockName(e.target.value);
+          stockTickerSetter(e.target.value);
+          // Set nameOfStock here
           link = "/pages/stock:" + e.target.value;
           console.log(link);
         }} 
       />
       <button onClick={() => console.log(link)}>
-        <Link to= {link}>
+        <Link to={link}>
           <img 
             src="/SearchIcon.svg" 
             alt="search"   
           />
-        </ Link>
+        </Link>
       </button>
     </div>
   );

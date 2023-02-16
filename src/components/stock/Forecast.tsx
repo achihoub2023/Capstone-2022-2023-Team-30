@@ -44,20 +44,19 @@ ChartJS.register(
   Legend
 );
 
-
 type Props = {
-  stockName: string; // The name of the stock
+  stockTicker: string; // The name of the stock
+  nameOfStock: string;
 };
 
-export default function Forecast({ stockName }: Props) {
+export default function Forecast({stockTicker}: Props) {
 
   const [resp, setData] = useState({});
   const url = "http://localhost:8081/time_series_default"
   // console.log({props.stockName});
   useEffect(() => {
-    postData(stockName,url).then(resp => setData(resp));
+    postData(stockTicker,url).then(resp => setData(resp));
   }, []);
-  
 
   const processed = JSON.parse(JSON.stringify(resp));
   const x_axis = processed.x?.split(",");
@@ -107,7 +106,7 @@ export default function Forecast({ stockName }: Props) {
 
   return (
     <div className="Forcast wide-container">
-      <h1>Forecast for: {stockName}</h1>
+      <h1>Forecast for: {stockTicker}</h1>
       <Line options={options} data={data} />
 
     </div>

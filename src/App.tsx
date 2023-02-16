@@ -12,25 +12,30 @@ import Chart from "components/stock/Chart";
 import ArticleList from "components/stock/ArticleList";
 
 export default function App() {
-  const [stock, setStock] = useState("");
+  const [stockTicker, setStockTicker] = useState("");
+  const [nameOfStock, setNameOfStock] = useState("");
 
-  const setStockName: FStringSetter = (stockName: string) => {
-    setStock(stockName);
+  const stockTickerSetter: FStringSetter = (stockName: string) => {
+    setStockTicker(stockName);
   };
+
+  const nameOfStockSetter: FStringSetter = (nameOfStock: string) => {
+    setNameOfStock(nameOfStock);
+  }
 
   return (
     <Router>
       <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="pages" element={<Layout />}>
-          <Route path="tutorial" element={<Tutorial />} />
+        <Route index element={<LandingPage/>} />
+        <Route path="pages" element={<Layout/>}>
+          <Route path="tutorial" element={<Tutorial/>}/>
           <Route
             path="search"
-            element={<SearchPage setStockName={setStockName} />}
+            element={<SearchPage stockTickerSetter={stockTickerSetter} nameOfStockSetter={nameOfStockSetter}/>}
           />
-          <Route path="stock" element={<StockData stockName={stock} />} />
-          <Route path="forecast" element={<Forecast stockName={stock} />} />
-          <Route path="articles" element={<ArticleList stockName={stock} />} />
+          <Route path="stock" element={<StockData stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
+          <Route path="forecast" element={<Forecast stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
+          <Route path="articles" element={<ArticleList stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
         </Route>
       </Routes>
     </Router>
