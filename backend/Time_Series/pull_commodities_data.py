@@ -52,20 +52,22 @@ class commodities_data:
         plt.grid(True)
 
         # ## LINE GRAPH ##
-        # plt.plot(xAxis,yAxis, color='maroon', marker='o')
-        # plt.xlabel('variable')
-        # plt.ylabel('value')
+        plt.plot(xAxis,yAxis, color='maroon', marker='o')
+        plt.xlabel('variable')
+        plt.ylabel('value')
 
 
-        # plt.show()
+        plt.show()
         return xAxis,yAxis
 
 # main method for testing
 
 
+
+
 def main():
     tester = commodities_data()
-    tester.stockhistory('GC=F','Weekly','2017-02-11','2018-01-02')
+    tester.stockhistory('AMZN','Weekly','2017-02-11','2018-01-02')
 
 
 main()
