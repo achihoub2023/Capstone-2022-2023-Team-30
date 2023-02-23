@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 import json
 import datetime
 import config
+import arima
+
 class commodities_data:
     # constructor
     def __init__(self):
@@ -59,6 +61,11 @@ class commodities_data:
 
         plt.show()
         return xAxis,yAxis
+    
+    def makePrediction(self):
+        arimaModelOne = arima.ARIMA_UTILS()
+        x,y = arimaModelOne.make_standard_prediction()
+        return x,y
 
 # main method for testing
 
@@ -68,6 +75,7 @@ class commodities_data:
 def main():
     tester = commodities_data()
     tester.stockhistory('AMZN','Weekly','2017-02-11','2018-01-02')
+    tester.makePrediction()
 
 
 main()
