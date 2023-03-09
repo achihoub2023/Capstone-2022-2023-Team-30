@@ -7,19 +7,20 @@ import { FStringSetter, IHeaderContext } from "interfaces";
 import { useOutletContext } from "react-router-dom";
 
 type Props = {
-  setStockName: FStringSetter; // Set stock name state in App.tsx to stock name picked in this component
+  stockTickerSetter: FStringSetter; // Set stock name state in App.tsx to stock name picked in this component
+  nameOfStockSetter: FStringSetter
 };
 
-function SearchPage({ setStockName }: Props) {
-  const { setHeadingName } = useOutletContext() as IHeaderContext;
+function SearchPage({stockTickerSetter, nameOfStockSetter}: Props) {
+  const {setHeadingName} = useOutletContext() as IHeaderContext;
   useEffect(() => {
     setHeadingName("Search"); // throws some sort of error, still gotta figure that out
   }, []);
 
   return (
     <div className="SearchPage container">
-      <SearchBar setStockName={setStockName} />
-      <StockList setStockName={setStockName} />
+      <SearchBar stockTickerSetter={stockTickerSetter} nameOfStockSetter={nameOfStockSetter}/>
+      <StockList stockTickerSetter={stockTickerSetter} nameOfStockSetter={nameOfStockSetter}/>
     </div>
   );
 }

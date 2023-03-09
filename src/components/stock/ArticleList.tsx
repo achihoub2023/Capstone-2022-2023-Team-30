@@ -7,26 +7,21 @@ interface article {
   title: string;
 }
 
-
-
 type Props = {
-  stockName: string; // The name of the stock
-  //actualStockName: string;
+  stockTicker: string; // The name of the stock
+  nameOfStock: string;
 };
 
-export default function ArticleList({ stockName }: Props) {
-
-
+export default function ArticleList({stockTicker}: Props) {
   const [resp, setData] = useState({});
   // console.log({props.stockName});
   const url = "http://localhost:8081/searchResults";
   useEffect(() => {
-    postData(stockName,url).then(resp => setData(resp));
+    postData(stockTicker,url).then(resp => setData(resp));
   }, []);
 
   console.log(resp);
   
-
   //function for when article is clicked, open article in new tab
   const whenStockNameClicked = (
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>
@@ -65,11 +60,9 @@ export default function ArticleList({ stockName }: Props) {
 
   // console.log(output);
 
-
   return (
     <div className="ArticleList wide-container">
       <h1>Article List</h1>
-
       {
         lists.map((article, index) => (
           <div className="article" key={index} onClick={whenStockNameClicked} >
@@ -78,8 +71,6 @@ export default function ArticleList({ stockName }: Props) {
           </div>
         ))
       }
-
-
     </div>
   );
 }

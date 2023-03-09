@@ -7,23 +7,24 @@ import ArticleList from "components/stock/ArticleList";
 import "pages/styles/StockDataPage.css";
 
 type Props = {
-  stockName: string; // The name of the stock
+  stockTicker: string; // Stock ticker
+  nameOfStock: string; // Stock name
 };
 
 enum PageToShow {
   Chart,
   Forecast,
-  Articles, // Add more chart types heres
+  Articles, // Add more chart types here
 }
 
 // This page shows the chart initially and then either the Forecast or profile depending on which button is clicked
-export default function StockData({ stockName }: Props) {
+export default function StockData({stockTicker}: Props) {
   const [page, changePage] = useState(PageToShow.Chart);
 
   return (
     <>
       <div className="StockDataPage wide-container">
-        <h1 className="stockTitle">{stockName}</h1>
+        <h1 className="stockTitle">{stockTicker}</h1>
         {/* <Outlet /> Articles, Forecast, Chart */}
 
         <Link to={"/pages/articles"}>
