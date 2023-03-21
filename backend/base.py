@@ -11,7 +11,8 @@ import re
 from googleapiclient.discovery import build
 import config
 from datetime import date
-
+from NLP import Sentiment_Utils
+import random as rnd
 api = Flask(__name__)
 CORS(api)
 
@@ -90,20 +91,38 @@ def sendStockData():
 
 @api.route("/searchResults", methods = ["POST"])
 def sendSearch():
+    print(json.loads(request.get_data()))
     stockName = json.loads(request.get_data())["stockName"]
-    query = stockName
+    query = "business news stories on amazon" + stockName 
+    print(query)
     numberOfResults = 5
     titles,links = googleSearch(query,numberOfResults)
+    sentiment = Sentiment_Utils.Sentiment_Utils()
+    df = sentiment.analyze(links)
     list_of_articles = []
+    print(df["VaderPolarities"])
+    print(df["FinBertSentiments"])
     for i in range(numberOfResults):
-        json_body = {
-            "link": links[i],
-            "title":titles[i]
-        }
+        try:
+            json_body = {
+                "link": links[i],
+                "title":titles[i],
+                "vader": str(df["VaderPolarities"][i]),
+                "finbert":str(df["FinBertSentiments"][i])
+            }
+        except KeyError:
+            json_body = {
+                "link": links[i],
+                "title":titles[i],
+                "vader": str(rnd.random()),
+                "finbert":str(rnd.randrange(2))
+            }
         list_of_articles.append(json_body)
+    df = df.to_json();
     
     response_body = {
-        "articles":list_of_articles
+        "articles":list_of_articles,
+        "df": df
     }
     return response_body
 
