@@ -16,9 +16,13 @@ export default function StockList(props: Props) {
   ): void => {
     const currentStock: string | null | undefined =
       e.currentTarget.querySelector(".stock-name")?.textContent;
+    const currentStockName: string | null | undefined =
+      e.currentTarget.querySelector(".stock-ticker")?.textContent;
+    console.log( e.currentTarget.querySelector(".stock-ticker")?.)
+    console.log(currentStock)
     if (currentStock) {
       props.stockTickerSetter(currentStock);
-      props.nameOfStockSetter("Stock Name: " + currentStock); // Just a test to see if prop is working - must be changed later
+      props.nameOfStockSetter("Stock Name: " + currentStockName); // Just a test to see if prop is working - must be changed later
       navigate(`/pages/stock`);
     } else {
       console.error(
@@ -39,7 +43,7 @@ export default function StockList(props: Props) {
               </h3>
               <p className="stock-price">{stock.price}</p>
             </div>
-            <p className="stock-desc">{stock.description}</p>
+            <p className="stock-desc">{stock.ticker}</p>
           </div>
         </div>
       ))}
