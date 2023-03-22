@@ -8,10 +8,10 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
 from statsmodels.tsa.arima.model import ARIMA
-import datetime
+from datetime import datetime, timedelta
 
 class ARIMA_UTILS:
-    def make_standard_prediction(self):
+    def make_standard_prediction(self,ticker):
         # create a differenced series
         def difference(dataset, interval=1):
             diff = list()
@@ -23,8 +23,8 @@ class ARIMA_UTILS:
         # invert differenced value
         def inverse_difference(history, yhat, interval=1):
             return yhat + history[-interval]
-        msft = yf.Ticker("GC=F")
-        msft_hist = msft.history(period="max")
+        msft = yf.Ticker(ticker)
+        msft_hist = yf.download(ticker,'2015-01-01',datetime.today().strftime('%Y-%m-%d'))
         msft_hist.reset_index(inplace=True)
         training_set = msft_hist["Close"]
 
@@ -47,7 +47,7 @@ class ARIMA_UTILS:
         base = msft_hist["Date"][0].to_pydatetime()
 
 
-        date_list = [base + datetime.timedelta(days=x) for x in range(numdays)]
+        date_list = [base + timedelta(days=x) for x in range(numdays)]
 
 
         forecast = model_fit.forecast(steps=len(date_list))
@@ -60,19 +60,21 @@ class ARIMA_UTILS:
             history.append(inverted)
             day += 1
         predicted_stock_price = np.array(history)
-        date_list = [base + datetime.timedelta(days=x) for x in range(len(predicted_stock_price))]
+        predicted_stock_price = np.array(predicted_stock_price).tolist()
+        date_list = [base + timedelta(days=x) for x in range(len(predicted_stock_price))]
 
 
 
-        #Visualising the results
-        plt.plot(msft_hist["Date"],msft_hist["Close"], color = "red", label = "Real Price")
-        plt.plot(date_list,predicted_stock_price, color = "blue", label = "Predicted Price")
-        plt.title('Commodity Stock Price Prediction')
-        plt.xlabel('Time')
-        plt.ylabel('Commodity Stock Price')
-        plt.legend()
-        plt.show()
+        # #Visualising the results
+        # plt.plot(msft_hist["Date"],msft_hist["Close"], color = "red", label = "Real Price")
+        # plt.plot(date_list,predicted_stock_price, color = "blue", label = "Predicted Price")
+        # plt.title('Commodity Stock Price Prediction')
+        # plt.xlabel('Time')
+        # plt.ylabel('Commodity Stock Price')
+        # plt.legend()
+        # plt.show()
         return date_list, predicted_stock_price
 if __name__ == "__main__":
+    ticker = "GC=F"
     arima_model = ARIMA_UTILS()
-    arima_model.make_standard_prediction()
+    arima_model.make_standard_prediction(ticker)

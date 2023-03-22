@@ -64,14 +64,20 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
 
   return (
     <div className="ArticleList wide-container">
+
       <h1>Article List</h1>
+      <div>
+        <p>      Note, VADER scores are reported out of . Finbert scores are reported between 0 and 1. </p>
+      </div>
+      <br></br>
       {
         lists.map((article, index) => (
           <div className="article" key={index} onClick={whenStockNameClicked} >
             <h3>{article[0]}</h3>
             <p className="article-link">{article[1]}</p>
-            <p>{article[2]}</p>
-            <p>{article[3]}</p>
+            <p>Vader Score: {article[2]}</p>
+            <p>Finbert Score: {article[3]}</p>
+            <br></br>
           </div>
         ))
       }

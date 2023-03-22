@@ -13,6 +13,8 @@ import config
 from datetime import date
 from NLP import Sentiment_Utils
 import random as rnd
+from Time_Series import arima
+
 api = Flask(__name__)
 CORS(api)
 
@@ -128,7 +130,6 @@ def sendSearch():
 
 @api.route("/time_series_default", methods = ["GET","POST"])
 def default_commodities():    
-    print(request.get_data())
     stockName = json.loads(request.get_data())["stockTicker"]
     START = "2015-01-01"
     TODAY = date.today().strftime("%Y-%m-%d")
@@ -139,9 +140,18 @@ def default_commodities():
     x_axis_body= "".join(str(e )+"," for e in x_axis)[:-1]
     y_axis = list(indexed_series.values())
     y_axis_body= "".join(str(e)+"," for e in y_axis)[:-1]
+    
+    predictor = arima.ARIMA_UTILS()
+    x_axis_pred , y_axis_pred = predictor.make_standard_prediction(stockName)
+    x_axis_pred = "".join(str(e )+"," for e in x_axis_pred)[:-1]
+    y_axis_pred = "".join(str(e)+"," for e in y_axis_pred)[:-1]
+    
+    
     response_body = {
         "x": x_axis_body,
-        "y": y_axis_body
+        "y": y_axis_body,
+        "x_pred": x_axis_pred,
+        "y_pred": y_axis_pred
     }
     
     return response_body

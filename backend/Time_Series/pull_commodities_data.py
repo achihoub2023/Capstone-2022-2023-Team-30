@@ -23,8 +23,8 @@ import arima
 
 class commodities_data:
     # constructor
-    def __init__(self):
-        pass
+    def __init__(self,ticker):
+        self.ticker = ticker
     #def stockhistory(company,startyear,startmonth,startday,endyear,endmonth,endday):
     def stockhistory(self,company,timeframe,start,end):
         #timeframe = 'Weekly'

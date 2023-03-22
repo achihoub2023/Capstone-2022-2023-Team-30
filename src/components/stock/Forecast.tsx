@@ -59,11 +59,16 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   }, []);
 
   const processed = JSON.parse(JSON.stringify(resp));
+  console.log(processed)
   const x_axis = processed.x?.split(",");
   const y_axis = processed.y?.split(",").map(Number);
 
+  const x_p = processed.x_pred?.split(",");
+  const y_p = processed.y_pred?.split(",").map(Number);
+
+
   const data = {
-    labels: x_axis,
+    labels: x_p,
     datasets: [
       {
         label:'Current Price',
@@ -71,6 +76,13 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
+      {
+        label: 'Predicted Price',
+        data: y_p,
+        borderColor: 'rgb(255, 50, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+
     ],
   };
   
@@ -102,6 +114,8 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
         },
       },
     }
+
+
   };
 
   return (
