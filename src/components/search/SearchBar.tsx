@@ -19,6 +19,8 @@ function SearchBar({stockTickerSetter, nameOfStockSetter}: Props) {
         onChange={(e) => {
           stockTickerSetter(e.target.value);
           // Set nameOfStock here
+          console.log(e.target);
+          nameOfStockSetter(e.target.value);
           link = "/pages/stock:" + e.target.value;
           console.log(link);
         }} 

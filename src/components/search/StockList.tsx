@@ -18,7 +18,7 @@ export default function StockList(props: Props) {
       e.currentTarget.querySelector(".stock-name")?.textContent;
     const currentStockName: string | null | undefined =
       e.currentTarget.querySelector(".stock-ticker")?.textContent;
-    console.log( e.currentTarget.querySelector(".stock-ticker")?.)
+    //console.log( e.currentTarget.querySelector(".stock-ticker")?.)
     console.log(currentStock)
     if (currentStock) {
       props.stockTickerSetter(currentStock);

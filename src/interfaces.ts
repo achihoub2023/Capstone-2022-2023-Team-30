@@ -7,7 +7,7 @@ export type Stock = {
   name: string;
   price: number;
   icon?: string;
-  description?: string;
+  ticker?: string;
 };
 
 // =================

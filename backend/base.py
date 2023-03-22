@@ -93,7 +93,7 @@ def sendStockData():
 def sendSearch():
     print(json.loads(request.get_data()))
     stockName = json.loads(request.get_data())["stockName"]
-    query = "business news stories on amazon" + stockName 
+    query = "business news stories on" + stockName 
     print(query)
     numberOfResults = 5
     titles,links = googleSearch(query,numberOfResults)

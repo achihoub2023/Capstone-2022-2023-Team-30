@@ -51,7 +51,8 @@ export default function ArticleList({stockTicker}: Props) {
   // console.log(googleArticles.articles);
   var lists = []
   for(var i =0; i<processed.articles?.length; i++){
-    lists.push([processed.articles?.[i].link,processed.articles?.[i].title]);
+    lists.push([processed.articles?.[i].link,processed.articles?.[i].title,
+      processed.finbert?.[i],processed.vader?.[i]]);
   }
 
   // processed.articles?.map((article:Object,index:Number) => console.log(article.title));
@@ -59,18 +60,23 @@ export default function ArticleList({stockTicker}: Props) {
   // const output = processed.userList.map(() => processed.link);
 
   // console.log(output);
-
+  console.log(lists)
   return (
     <div className="ArticleList wide-container">
       <h1>Article List</h1>
+      <table>
       {
         lists.map((article, index) => (
           <div className="article" key={index} onClick={whenStockNameClicked} >
             <h3>{article[0]}</h3>
             <p className="article-link">{article[1]}</p>
+            <p className="article-link">{article[2]}</p>
+            <p className="article-link">{article[3]}</p>
           </div>
         ))
       }
+      </table>
+
     </div>
   );
 }

@@ -18,7 +18,7 @@ enum PageToShow {
 }
 
 // This page shows the chart initially and then either the Forecast or profile depending on which button is clicked
-export default function StockData({stockTicker}: Props) {
+export default function StockData({stockTicker,nameOfStock}: Props) {
   const [page, changePage] = useState(PageToShow.Chart);
 
   return (

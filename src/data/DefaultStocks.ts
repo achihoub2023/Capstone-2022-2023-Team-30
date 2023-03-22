@@ -2,61 +2,60 @@ import { Stock } from "interfaces";
 
 const stocks: Array<Stock> = [
   {
-    name: "GOOGL",
+    name: "Water",
     price: 2564.91,
     icon: "https://logo.clearbit.com/abc.xyz",
-    description: "Alphabet Inc Class C",
+    ticker: "H20=F",
   },
   {
-    name: "AAPL",
+    name: "Natural Gas",
     price: 167.23,
     icon: "https://logo.clearbit.com/apple.com",
-    description: "Apple Inc",
+    ticker: "NG=F",
   },
   {
-    name: "AMZN",
+    name: "Aluminum",
     price: 3052.03,
     icon: "https://logo.clearbit.com/amazon.com",
-    description: "Amazon.com Inc",
+    ticker: "ALI=F",
   },
   {
-    name: "MSFT",
+    name: "Corn",
     price: 286.36,
     icon: "https://logo.clearbit.com/microsoft.com",
-    description: "Microsoft Corporation",
+    ticker: "ZC=F",
   },
   {
-    name: "NIO",
+    name: "Cobalt",
     price: 23.93,
     icon: "https://logo.clearbit.com/nio.com",
-    description: "Nio Inc",
+    ticker: "COB=F",
   },
   {
-    name: "NVDA",
+    name: "Silver",
     price: 236.42,
     icon: "https://logo.clearbit.com/nvidia.com",
-    description: "NVIDIA Corporation",
+    ticker: "SI=F",
   },
   {
-    name: "MRNA",
+    name: "Wheat",
     price: 145.74,
     icon: "https://logo.clearbit.com/modernatx.com",
-    description: "Moderna Inc",
+    ticker: "ZW=F",
   },
 
   {
-    name: "ES=F",
+    name: "Crude Oil",
     price: 77.49,
     icon: "https://logo.clearbit.com/bp.com/",
-    description: "Crude Oil",
+    ticker: "CL=F",
   },
 
-
   {
-    name: "GC=F",
+    name: "Gold",
     price: 66.66,
     icon: "https://logo.clearbit.com/bp.com/",
-    description: "Crude Oil",
+    ticker: "GC=F",
   },
 
 ];
