@@ -50,7 +50,6 @@ class Sentiment_Utils:
         #url = "https://www.reuters.com/business/energy/chevrons-output-gains-venezuela-limited-by-political-risk-ceo-says-2023-02-28/"
             try:
                 page = urlopen(url)
-                print(page.info())
                 html = page.read().decode("utf-8")
                 soup = BeautifulSoup(html, "html.parser")
                 #out = json.dumps(soup.get_text())

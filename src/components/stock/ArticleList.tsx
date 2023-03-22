@@ -12,12 +12,12 @@ type Props = {
   nameOfStock: string;
 };
 
-export default function ArticleList({stockTicker}: Props) {
+export default function ArticleList({stockTicker,nameOfStock}: Props) {
   const [resp, setData] = useState({});
   // console.log({props.stockName});
   const url = "http://localhost:8081/searchResults";
   useEffect(() => {
-    postData(stockTicker,url).then(resp => setData(resp));
+    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
   console.log(resp);
@@ -52,31 +52,29 @@ export default function ArticleList({stockTicker}: Props) {
   var lists = []
   for(var i =0; i<processed.articles?.length; i++){
     lists.push([processed.articles?.[i].link,processed.articles?.[i].title,
-      processed.finbert?.[i],processed.vader?.[i]]);
+      processed.articles?.[i].finbert,processed.articles?.[i].vader]);
+      console.log(processed.finbert?.[i])
   }
 
   // processed.articles?.map((article:Object,index:Number) => console.log(article.title));
   // console.log(processed.articles.map((article,index) => console.log(article.link));
   // const output = processed.userList.map(() => processed.link);
-
-  // console.log(output);
   console.log(lists)
+  // console.log(output);
+
   return (
     <div className="ArticleList wide-container">
       <h1>Article List</h1>
-      <table>
       {
         lists.map((article, index) => (
           <div className="article" key={index} onClick={whenStockNameClicked} >
             <h3>{article[0]}</h3>
             <p className="article-link">{article[1]}</p>
-            <p className="article-link">{article[2]}</p>
-            <p className="article-link">{article[3]}</p>
+            <p>{article[2]}</p>
+            <p>{article[3]}</p>
           </div>
         ))
       }
-      </table>
-
     </div>
   );
 }

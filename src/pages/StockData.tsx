@@ -24,7 +24,7 @@ export default function StockData({stockTicker,nameOfStock}: Props) {
   return (
     <>
       <div className="StockDataPage wide-container">
-        <h1 className="stockTitle">{stockTicker}</h1>
+        <h1 className="stockTitle">{nameOfStock}</h1>
         {/* <Outlet /> Articles, Forecast, Chart */}
 
         <Link to={"/pages/articles"}>

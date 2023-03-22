@@ -15,14 +15,14 @@ export const getData = async () => {
     }
 };
 
-export const postData = async (data:string, url:string) => {
+export const postData = async (data:string, data2:string, url:string) => {
   try {
       const response = await fetch(url, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({stockName: data})
+    body: JSON.stringify({stockTicker: data, stockName:data2})
   });
     const data_2 = response.json();
     return data_2;

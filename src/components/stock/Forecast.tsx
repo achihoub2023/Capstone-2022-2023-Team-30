@@ -49,13 +49,13 @@ type Props = {
   nameOfStock: string;
 };
 
-export default function Forecast({stockTicker}: Props) {
+export default function Forecast({stockTicker,nameOfStock}: Props) {
 
   const [resp, setData] = useState({});
   const url = "http://localhost:8081/time_series_default"
   // console.log({props.stockName});
   useEffect(() => {
-    postData(stockTicker,url).then(resp => setData(resp));
+    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
   const processed = JSON.parse(JSON.stringify(resp));
@@ -106,7 +106,7 @@ export default function Forecast({stockTicker}: Props) {
 
   return (
     <div className="Forcast wide-container">
-      <h1>Forecast for: {stockTicker}</h1>
+      <h1>Forecast for: {nameOfStock}</h1>
       <Line options={options} data={data} />
 
     </div>

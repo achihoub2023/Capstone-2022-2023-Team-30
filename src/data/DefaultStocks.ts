@@ -27,9 +27,9 @@ const stocks: Array<Stock> = [
   },
   {
     name: "Cobalt",
+    ticker: "COB=F",
     price: 23.93,
     icon: "https://logo.clearbit.com/nio.com",
-    ticker: "COB=F",
   },
   {
     name: "Silver",

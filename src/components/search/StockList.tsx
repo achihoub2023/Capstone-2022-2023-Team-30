@@ -14,15 +14,13 @@ export default function StockList(props: Props) {
   const whenStockNameClicked = (
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>
   ): void => {
-    const currentStock: string | null | undefined =
-      e.currentTarget.querySelector(".stock-name")?.textContent;
     const currentStockName: string | null | undefined =
-      e.currentTarget.querySelector(".stock-ticker")?.textContent;
-    //console.log( e.currentTarget.querySelector(".stock-ticker")?.)
-    console.log(currentStock)
-    if (currentStock) {
-      props.stockTickerSetter(currentStock);
-      props.nameOfStockSetter("Stock Name: " + currentStockName); // Just a test to see if prop is working - must be changed later
+      e.currentTarget.querySelector(".stock-name")?.textContent;
+    const currentStockTicker: string | null | undefined =
+      e.currentTarget.querySelector(".stock-desc")?.textContent;
+    if (currentStockName && currentStockTicker) {
+      props.stockTickerSetter(currentStockTicker);
+      props.nameOfStockSetter(currentStockName); // Just a test to see if prop is working - must be changed later
       navigate(`/pages/stock`);
     } else {
       console.error(

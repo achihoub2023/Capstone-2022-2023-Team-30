@@ -129,10 +129,10 @@ def sendSearch():
 @api.route("/time_series_default", methods = ["GET","POST"])
 def default_commodities():    
     print(request.get_data())
-    stockName = json.loads(request.get_data())["stockName"]
+    stockName = json.loads(request.get_data())["stockTicker"]
     START = "2015-01-01"
     TODAY = date.today().strftime("%Y-%m-%d")
-    data = yf.download(stockName,'2015-01-01','2020-01-01')
+    data = yf.download(stockName,'2015-01-01',datetime.today().strftime('%Y-%m-%d'))
     time_series = data["Adj Close"].to_dict()        
     indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
     x_axis = pd.to_datetime(data.index).strftime("%Y-%m-%d").tolist()
