@@ -42,13 +42,13 @@ class ARIMA_UTILS:
         model_fit = model.fit()
         # print summary of fit model
 
-        numdays = 5000
+        numdays = 1500
         # base = datetime.datetime.strptime(str(msft_hist["Date"][0]),'%y/%d/%m %H:%M:%S')
         base = msft_hist["Date"][0].to_pydatetime()
-
+        print(base)
 
         date_list = [base + timedelta(days=x) for x in range(numdays)]
-
+        print(date_list[-1])
 
         forecast = model_fit.forecast(steps=len(date_list))
 
@@ -62,6 +62,7 @@ class ARIMA_UTILS:
         predicted_stock_price = np.array(history)
         predicted_stock_price = np.array(predicted_stock_price).tolist()
         date_list = [base + timedelta(days=x) for x in range(len(predicted_stock_price))]
+        print(date_list[-1])
 
 
 

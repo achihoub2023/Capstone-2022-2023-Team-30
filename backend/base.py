@@ -116,8 +116,8 @@ def sendSearch():
             json_body = {
                 "link": links[i],
                 "title":titles[i],
-                "vader": str(rnd.random()),
-                "finbert":str(rnd.randrange(2))
+                "vader": "Website cannot be scraped.",
+                "finbert": "Website cannot be scraped."
             }
         list_of_articles.append(json_body)
     df = df.to_json();
@@ -133,6 +133,7 @@ def default_commodities():
     stockName = json.loads(request.get_data())["stockTicker"]
     START = "2015-01-01"
     TODAY = date.today().strftime("%Y-%m-%d")
+    print(TODAY)
     data = yf.download(stockName,'2015-01-01',datetime.today().strftime('%Y-%m-%d'))
     time_series = data["Adj Close"].to_dict()        
     indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}

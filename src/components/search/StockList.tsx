@@ -39,7 +39,7 @@ export default function StockList(props: Props) {
               <h3 className="stock-name" title="An interesting stock...">
                 {stock.name}
               </h3>
-              <p className="stock-price">{stock.price}</p>
+              {/* <p className="stock-price">{stock.price}</p> */}
             </div>
             <p className="stock-desc">{stock.ticker}</p>
           </div>

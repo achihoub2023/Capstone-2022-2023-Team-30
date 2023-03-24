@@ -5,7 +5,6 @@ import React from "react";
 export type FStringSetter = (name: string) => void;
 export type Stock = {
   name: string;
-  price: number;
   icon?: string;
   ticker?: string;
 };

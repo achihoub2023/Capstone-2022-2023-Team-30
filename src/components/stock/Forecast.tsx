@@ -73,8 +73,8 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
       {
         label:'Current Price',
         data: y_axis,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgb(0, 0, 255)',
+        backgroundColor: 'rgb(0, 0, 255,0.5)',
       },
       {
         label: 'Predicted Price',
@@ -122,7 +122,6 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
     <div className="Forcast wide-container">
       <h1>Forecast for: {nameOfStock}</h1>
       <Line options={options} data={data} />
-
     </div>
   );
 }

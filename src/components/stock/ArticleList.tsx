@@ -66,8 +66,11 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
     <div className="ArticleList wide-container">
 
       <h1>Article List</h1>
+      <br></br>
       <div>
-        <p>      Note, VADER scores are reported out of . Finbert scores are reported between 0 and 1. </p>
+        <h2> Notes on VADER and Finbert Scores</h2>
+        <p>  VADER scores are reported from -1 to 1. Finbert scores is an integer 0,1, or 2. Finbert score of 0 is positive, 1 is negative, 2 is neutral.
+          Sometimes, websites cannot be scraped due to the website's policy. </p>
       </div>
       <br></br>
       {
@@ -75,8 +78,8 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
           <div className="article" key={index} onClick={whenStockNameClicked} >
             <h3>{article[0]}</h3>
             <p className="article-link">{article[1]}</p>
-            <p>Vader Score: {article[2]}</p>
-            <p>Finbert Score: {article[3]}</p>
+            <p>Finbert Score: {article[2]}</p>
+            <p>Vader Score: {article[3]}</p>
             <br></br>
           </div>
         ))
