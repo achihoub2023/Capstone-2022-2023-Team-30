@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import 'components/styles/Forecast.css'
 import axios from "axios";
 import { getData } from './api';
 import {postData} from './api'
@@ -55,7 +56,7 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   const url = "http://localhost:8081/time_series_default"
   // console.log({props.stockName});
   useEffect(() => {
-    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
+    // postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
   const processed = JSON.parse(JSON.stringify(resp));
@@ -66,6 +67,15 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   const x_p = processed.x_pred?.split(",");
   const y_p = processed.y_pred?.split(",").map(Number);
 
+  const [showDropdown, setShowDropdown] = useState("");
+
+  const clickedDropdownBtn = (): void => {
+    if(showDropdown === "") {
+      setShowDropdown("show");
+    } else {
+      setShowDropdown("");
+    }
+  }
 
   const data = {
     labels: x_p,
@@ -114,14 +124,22 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
         },
       },
     }
-
-
   };
 
   return (
     <div className="Forcast wide-container">
-      <h1>Forecast for: {nameOfStock}</h1>
-      <Line options={options} data={data} />
+      <div className="header">
+        <h1>Forecast for: {nameOfStock}</h1>
+        <Line options={options} data={data} />
+      </div>
+      <div className="dropdown">
+        <button onClick={clickedDropdownBtn} className="dropbtn">Dropdown</button>
+        <div id="myDropdown" className={`dropdown-content ${showDropdown}`}>
+          <a href="#">Option 1</a>
+          <a href="#">Option 2</a>
+          <a href="#">Option 3</a>
+        </div>
+      </div>
     </div>
   );
 }
