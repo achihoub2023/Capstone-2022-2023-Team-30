@@ -56,7 +56,7 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   const url = "http://localhost:8081/time_series_default"
   // console.log({props.stockName});
   useEffect(() => {
-    // postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
+    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
   const processed = JSON.parse(JSON.stringify(resp));
