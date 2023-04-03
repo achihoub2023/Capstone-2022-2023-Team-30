@@ -17,7 +17,7 @@ export const getData = async () => {
 
 export const postData = async (data:string, data2:string, url:string) => {
   try {
-      const response = await fetch(url, {
+    const response = await fetch(url, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -29,11 +29,23 @@ export const postData = async (data:string, data2:string, url:string) => {
   } catch (error) {
     console.error(error);
   }
-
-
-  // const backendData = await getDataFromBackend();  // This will get the stock data from the backend. Not tested yet.
-  // console.log(backendData);
 }
+
+/* THIS WILL BE USED TO SEND THE OPTION SELECTED IN FORECAST TO BACKEND
+export const postForecastOption = async (option: string) => {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({option: option})
+    });
+  } catch(error) {
+    console.error(error);
+  }
+}
+*/
 
 export const getDataFromBackend = async () => {
   console.log("Running backendData()");

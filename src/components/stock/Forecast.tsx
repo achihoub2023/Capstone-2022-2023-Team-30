@@ -67,6 +67,7 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   const x_p = processed.x_pred?.split(",");
   const y_p = processed.y_pred?.split(",").map(Number);
 
+  const [dropdownButtonText, setDropdownButtonText] = useState("Dropdown ▼");
   const [showDropdown, setShowDropdown] = useState("");
 
   const clickedDropdownBtn = (): void => {
@@ -75,6 +76,15 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
     } else {
       setShowDropdown("");
     }
+  }
+
+  const optionClicked = (option: string): void => {
+    setDropdownButtonText(option + " ▼");
+    setShowDropdown("");
+  }
+
+  const submitButtonClicked = (): void => {
+    // Call backend API function here
   }
 
   const data = {
@@ -133,12 +143,14 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
         <Line options={options} data={data} />
       </div>
       <div className="dropdown">
-        <button onClick={clickedDropdownBtn} className="dropbtn">Dropdown</button>
+        <button onClick={clickedDropdownBtn} className="dropbtn">{dropdownButtonText}</button>
         <div id="myDropdown" className={`dropdown-content ${showDropdown}`}>
-          <a href="#">Option 1</a>
-          <a href="#">Option 2</a>
-          <a href="#">Option 3</a>
+          <a onClick={() => optionClicked("Option 1")} href="#">Option 1</a>
+          <a onClick={() => optionClicked("Option 2")} href="#">Option 2</a>
+          <a onClick={() => optionClicked("Option 3")} href="#">Option 3</a>
+          <a onClick={() => optionClicked("Option 4")} href="#">Option 4</a>
         </div>
+        <button className="submit-button" onClick={submitButtonClicked}>Submit</button>
       </div>
     </div>
   );
