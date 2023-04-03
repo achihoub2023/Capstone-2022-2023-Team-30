@@ -14,9 +14,98 @@ from datetime import date
 from NLP import Sentiment_Utils
 import random as rnd
 from Time_Series import arima
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
+from urllib.request import urlopen
+import pandas as pd
+from googleapiclient.discovery import build
 
 api = Flask(__name__)
 CORS(api)
+
+
+def googleSearchV2(query,numberOfResults,startyear,startmonth,startday,endyear,endmonth,endday,numstart):
+    api_key = config.api_key
+    api_key = api_key
+    resource = build("customsearch", 'v1', developerKey=api_key).cse()
+    startyear = str(startyear)
+    if(int(startday)<10):
+        startday = '0'+str(startday)
+    else:
+        startday = str(startday)
+    if(int(startmonth)<10):
+        startmonth = '0'+str(startmonth)
+    else:
+        startmonth = str(startmonth)
+    endyear = str(endyear)
+    if(int(endday)<10):
+        endday = '0'+str(endday)
+    else:
+        endday = str(endday)
+    if(int(endmonth)<10):
+        endmonth= '0'+str(endmonth)
+    else:
+        endmonth = str(endmonth)
+    startdate = startyear+startmonth+startday
+    enddate = endyear+endmonth+endday
+    result = resource.list(q=query, cx='f1df5b7295d8b453d', sort="date:r:"+startdate+":"+enddate, start=numstart).execute()
+    #, sort="date:r:20610101:20231231"
+    
+    if(len(result['items'])<numberOfResults):
+        numberOfResults = len(result['items'])
+    links = [0 for _ in range(numberOfResults)]
+    titles = [0 for _ in range(numberOfResults)]
+    for i in range(numberOfResults):
+        titles[i] = result['items'][i]['title']
+        links[i] = result['items'][i]['link']
+        #print(titles[i])
+    return titles,links
+
+
+
+def webscraper(query,numberofresults,startyear,startmonth,startday,endyear,endmonth,endday):
+    _,urls = googleSearchV2(query,numberofresults,startyear,startmonth,startday,endyear,endmonth,endday,0)
+    out = pd.DataFrame(columns=['source', 'text'])
+    d = {}
+    nummissing = 0
+    d['source'] = []
+    d['text'] = []
+    for url in urls:
+    #url = "https://www.foxbusiness.com/energy/chevron-ceo-denies-biden-oil-lease-claim-details-practical-energy-policy"
+    #url = "https://www.reuters.com/business/energy/chevrons-output-gains-venezuela-limited-by-political-risk-ceo-says-2023-02-28/"
+        try:
+            page = urlopen(url)
+        except:
+            nummissing+=1
+            continue
+        html = page.read().decode("utf-8")
+        soup = BeautifulSoup(html, "html.parser")
+    #out = json.dumps(soup.get_text())
+        source = urlparse(url).hostname
+        text = soup.get_text()
+        d['text'].append(text)
+        d['source'].append(source)
+    start = len(urls)
+    while(nummissing>0):
+        _,urls = googleSearchV2(query,10,startyear,startmonth,startday,endyear,endmonth,endday,start)
+        for url in urls:
+            try:
+                page = urlopen(url)
+                nummissing-=1
+            except:
+                continue
+            html = page.read().decode("utf-8")
+            soup = BeautifulSoup(html, "html.parser")
+            source = urlparse(url).hostname
+            text = soup.get_text()
+            d['text'].append(text)
+            d['source'].append(source)
+            if(nummissing<=0):
+                break
+            else:
+                start=start+10
+    out = pd.DataFrame.from_dict(d)
+    return out
 
 
 def googleSearch(query,numberOfResults):
