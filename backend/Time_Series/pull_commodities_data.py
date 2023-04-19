@@ -73,7 +73,7 @@ class commodities_data:
 
 
 def main():
-    tester = commodities_data()
+    tester = commodities_data('AMZN')
     tester.stockhistory('AMZN','Weekly','2017-02-11','2018-01-02')
     tester.makePrediction()
 
