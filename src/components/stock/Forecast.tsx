@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import 'components/styles/Forecast.css'
 import axios from "axios";
 import { getData } from './api';
 import {postData} from './api'
@@ -66,6 +67,25 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   const x_p = processed.x_pred?.split(",");
   const y_p = processed.y_pred?.split(",").map(Number);
 
+  const [dropdownButtonText, setDropdownButtonText] = useState("Dropdown ▼");
+  const [showDropdown, setShowDropdown] = useState("");
+
+  const clickedDropdownBtn = (): void => {
+    if(showDropdown === "") {
+      setShowDropdown("show");
+    } else {
+      setShowDropdown("");
+    }
+  }
+
+  const optionClicked = (option: string): void => {
+    setDropdownButtonText(option + " ▼");
+    setShowDropdown("");
+  }
+
+  const submitButtonClicked = (): void => {
+    // Call backend API function here
+  }
 
   const data = {
     labels: x_p,
@@ -114,14 +134,24 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
         },
       },
     }
-
-
   };
 
   return (
     <div className="Forcast wide-container">
-      <h1>Forecast for: {nameOfStock}</h1>
-      <Line options={options} data={data} />
+      <div className="header">
+        <h1>Forecast for: {nameOfStock}</h1>
+        <Line options={options} data={data} />
+      </div>
+      <div className="dropdown">
+        <button onClick={clickedDropdownBtn} className="dropbtn">{dropdownButtonText}</button>
+        <div id="myDropdown" className={`dropdown-content ${showDropdown}`}>
+          <a onClick={() => optionClicked("Option 1")} href="#">Option 1</a>
+          <a onClick={() => optionClicked("Option 2")} href="#">Option 2</a>
+          <a onClick={() => optionClicked("Option 3")} href="#">Option 3</a>
+          <a onClick={() => optionClicked("Option 4")} href="#">Option 4</a>
+        </div>
+        <button className="submit-button" onClick={submitButtonClicked}>Submit</button>
+      </div>
     </div>
   );
 }
