@@ -7,6 +7,7 @@ interface article {
   title: string;
 }
 
+
 type Props = {
   stockTicker: string; // The name of the stock
   nameOfStock: string;
@@ -65,7 +66,7 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
   return (
     <div className="ArticleList wide-container">
 
-      <h1>Article List</h1>
+      <h1>{nameOfStock} Article List</h1>
       <br></br>
       <div>
         <h2> Notes on VADER and Finbert Scores</h2>
