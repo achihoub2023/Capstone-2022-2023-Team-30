@@ -1,98 +1,91 @@
-import pandas as pd
+import requests
 import numpy as np
+import pandas as pd
+from datetime import datetime
+import random
+# For visualizations
+import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
-import yfinance as yf
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import mean_absolute_error
-from sklearn.model_selection import train_test_split
-from statsmodels.tsa.arima.model import ARIMA
+# For time series modeling
+import statsmodels.api as sm
 from statsmodels.tsa.stattools import adfuller
-from datetime import datetime, timedelta
-from itertools import product
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from statsmodels.tsa.arima_model import ARMA
+import yfinance as yf
 
 class ARIMA_UTILS:
     def make_standard_prediction(self,ticker):
+        dataframe = yf.download(ticker,'2004-01-01','2023-04-19')
+        dataframe[dataframe.isna().any(axis=1)]
+        def calc_return(dataframe, lag = 1):
+            """
+            Adds a column of the previous close to the dataframe. Lag is a user-input parameter.
+            """
+            prevClose = [x for x in dataframe['Close'][:-lag]]
+            prevClose = [np.nan for i in range(lag)] + prevClose
+            dataframe[f'{lag}-day prevClose'] = prevClose
+            dataframe['return'] = np.log(dataframe[f'{lag}-day prevClose']).diff()
+            
+            return dataframe
 
-        msft = yf.Ticker(ticker)
-        msft_hist = yf.download(ticker,'2021-01-01',datetime.today().strftime('%Y-%m-%d'))
-        msft_hist.reset_index(inplace=True)
-        training_set = msft_hist["Close"]
-
-        result = adfuller(training_set)
-        # If the data is not stationary, apply differencing until it becomes stationary
-        d = 0
-        while result[0] > result[4]["5%"]:
-            df_diff = msft_hist.diff().dropna()
-            result = adfuller(training_set)
-            d += 10
+        calc_return(dataframe, lag=1)
         
-        p = range(0, 2)
-        d = [d]
-        q = range(0, 2)
+        def mean_std(dataframe, length=20):
+            """
+            Adds 2 columns to our dataframe: A rolling mean and standard deviations of user-defined lengths
+            """
+            dataframe[f'sma{length}'] = dataframe['return'].rolling(length).mean()
+            dataframe[f'std{length}'] = dataframe['return'].rolling(length).std()
+            # Remove leading NaNs
+            dataframe.dropna(inplace=True)
+    
+        mean_std(dataframe)
 
-        pdq = list(product(p, d, q))
-
-        # Fit ARIMA models with each combination of p, d, and q values and select the best one based on the Akaike Information Criterion (AIC)
-        best_aic = np.inf
-        best_model = None
-        for param in pdq:
-            try:
-                model = ARIMA(training_set, order=param).fit()
-                if model.aic < best_aic:
-                    best_aic = model.aic
-                    best_model = model
-            except:
-                continue
-
-
-        # test_set = msft_hist.iloc[4513:, 1:2].values
-
-
-        # Feature Scaling
-        sc = MinMaxScaler(feature_range = (0, 1))
-        training_set_scaled = sc.fit_transform(np.array(training_set).reshape(-1,1))
-        days_in_year = 365
-        #differenced = difference(training_set, days_in_year)
-        # fit model
-
-        model_fit = best_model
-        # print summary of fit model
-
-        numdays = 450
-        # base = datetime.datetime.strptime(str(msft_hist["Date"][0]),'%y/%d/%m %H:%M:%S')
-        base = msft_hist["Date"][0].to_pydatetime()
-
-        date_list = [base + timedelta(days=x) for x in range(numdays)]
-
-        forecast = model_fit.forecast(steps=numdays)
-
-        # invert the differenced forecast to something usable
-        history = [x for x in training_set]
-        day = 1
-        #+ np.random.normal(0, variance_of_set, size = forecast.size)
-        variance_of_set = np.array(forecast).var()
-        predicted_stock_price = np.array(forecast) 
-        predicted_stock_price = np.array(predicted_stock_price).tolist()
-        date_list = [datetime.today() + timedelta(days=x) for x in range(len(predicted_stock_price))]
-        print(date_list[-1])
-        print(msft_hist["Date"].tail(1).item())
+        dftest = sm.tsa.adfuller(dataframe['return'], autolag='AIC')
+        dfoutput = pd.Series(dftest[0:4], index=['Test Statistic', 'p-value', '#Lags Used', 'Number of Observation Used'])
+        for key, value in dftest[4].items():
+            dfoutput['Critical Value ({0})'.format(key)] = value
+        dfoutput
         
-        print("asdassadsadsadasdsdasdas")
-        print(date_list[0])
-        print(msft_hist["Date"][0])
+        
+        ar1 = sm.tsa.arima.ARIMA(endog = dataframe['return'].values, order = (6,0,6)).fit()
+        # ar1.summary()
 
+        # Generate predictions
+        preds = ar1.fittedvalues
 
+        # Add predictions to our dataframe
+        dataframe['predictions'] = dataframe[dataframe.columns[1]] * (1 + preds)
+        #from information import client_id
+        
+        steps = 63
 
-        #Visualising the results
-        plt.plot(msft_hist["Date"],msft_hist["Close"], color = "red", label = "Real Price")
-        plt.plot(date_list,predicted_stock_price, color = "blue", label = "Predicted Price")
-        plt.title('Commodity Stock Price Prediction')
-        plt.xlabel('Time')
-        plt.ylabel('Commodity Stock Price')
-        plt.legend()
-        plt.show()
+        # Define forecast array for 2 days into the future
+        # forecast = ar1.forecast(steps=steps)[0]
+        # forecast1 = dataframe['Close'][-1] * (1 + forecast[0])
+        # forecast2 = forecast1 * (1 + forecast[1])
+        # forecast_array = np.array([forecast1, forecast2])
+
+        forecast = ar1.forecast(steps=steps)
+        prevForecast = dataframe['Close'][-1] * (1 + forecast[0])
+        forecast_array = [prevForecast]
+        for i in range(steps-1):
+            currForecast = prevForecast * (1 + forecast[i])
+            prevForecast = currForecast
+            forecast_array.append(currForecast)
+            
+        noise = np.random.normal(0, 5, 63)
+
+        kang = forecast_array + noise - 0
+
+        kang[0] = dataframe['Close'][len(dataframe)-1]
+
+        fc = pd.Series(kang, index = pd.date_range(pd.DataFrame(dataframe.iloc[len(dataframe)-1]).columns[0], periods=63).tolist())
+ 
+
+        date_list = pd.date_range(pd.DataFrame(dataframe.iloc[len(dataframe)-1]).columns[0], periods=63).tolist()
+        predicted_stock_price = kang.tolist()
+
         return date_list, predicted_stock_price
 if __name__ == "__main__":
     ticker = "GC=F"

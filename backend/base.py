@@ -139,7 +139,7 @@ def default_commodities():
     START = "2015-01-01"
     TODAY = date.today().strftime("%Y-%m-%d")
     print(TODAY)
-    data = yf.download(stockName,'2015-01-01',datetime.today().strftime('%Y-%m-%d'))
+    data = yf.download(stockName,'2022-01-01',datetime.today().strftime('%Y-%m-%d'))
     time_series = data["Adj Close"].to_dict()        
     indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
     x_axis = pd.to_datetime(data.index).strftime("%Y-%m-%d").tolist()
@@ -149,6 +149,9 @@ def default_commodities():
     
     predictor = arima.ARIMA_UTILS()
     x_axis_pred , y_axis_pred = predictor.make_standard_prediction(stockName)
+    y_axis_pred[0] = y_axis[0]
+    x_axis_pred = x_axis + x_axis_pred
+    y_axis_pred = y_axis + y_axis_pred 
     x_axis_pred = "".join(str(e )+"," for e in x_axis_pred)[:-1]
     y_axis_pred = "".join(str(e)+"," for e in y_axis_pred)[:-1]
     
