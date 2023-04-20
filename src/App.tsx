@@ -10,6 +10,7 @@ import StockData from "pages/StockData";
 import Forecast from "components/stock/Forecast";
 import Chart from "components/stock/Chart";
 import ArticleList from "components/stock/ArticleList";
+import Statistics from "components/stock/Statistics";
 
 export default function App() {
   const [stockTicker, setStockTicker] = useState("");
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="stock" element={<StockData stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
           <Route path="forecast" element={<Forecast stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
           <Route path="articles" element={<ArticleList stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
+          <Route path="statistics" element={<Statistics stockTicker={stockTicker} nameOfStock={nameOfStock}/>}/>
         </Route>
       </Routes>
     </Router>
