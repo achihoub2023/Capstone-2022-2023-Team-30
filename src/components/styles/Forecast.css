@@ -1,12 +1,12 @@
 /* Dropdown Button */
-.dropbtn, .submit-button {
+.dropbtn, .submit-button, .stat-button {
     background-color: #3498DB;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
     cursor: pointer;
-  }
+}
 
 .submit-button {
     margin-left: 20px;
@@ -14,6 +14,20 @@
 
 .submit-button:hover {
     background-color: #2980B9;
+}
+
+.stat-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.stat-button {
+    background-color: #dbb434;
+    margin-top: 20px;
+}
+
+.stat-button:hover {
+    background-color: #b49019;
 }
   
 /* Dropdown button on hover & focus */

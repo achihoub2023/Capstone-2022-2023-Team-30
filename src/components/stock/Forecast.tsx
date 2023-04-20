@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'components/styles/Forecast.css'
 import axios from "axios";
-import { getData } from './api';
+import { getData, postForecastOption } from './api';
 import {postData} from './api'
 
 import {
@@ -34,6 +34,7 @@ import {
 // )
 
 import { Line } from 'react-chartjs-2';
+import { Link } from 'react-router-dom';
 
 ChartJS.register(
   CategoryScale,
@@ -50,7 +51,7 @@ type Props = {
   nameOfStock: string;
 };
 
-export default function Forecast({stockTicker,nameOfStock}: Props) {
+export default function Forecast({stockTicker, nameOfStock}: Props) {
 
   const [resp, setData] = useState({});
   const url = "http://localhost:8081/time_series_default"
@@ -67,7 +68,7 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   const x_p = processed.x_pred?.split(",");
   const y_p = processed.y_pred?.split(",").map(Number);
 
-  const [dropdownButtonText, setDropdownButtonText] = useState("Dropdown ▼");
+  const [dropdownButtonText, setDropdownButtonText] = useState("Dropdown");
   const [showDropdown, setShowDropdown] = useState("");
 
   const clickedDropdownBtn = (): void => {
@@ -79,12 +80,12 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
   }
 
   const optionClicked = (option: string): void => {
-    setDropdownButtonText(option + " ▼");
+    setDropdownButtonText(option);
     setShowDropdown("");
   }
 
   const submitButtonClicked = (): void => {
-    // Call backend API function here
+    postForecastOption(dropdownButtonText, url);
   }
 
   const data = {
@@ -143,7 +144,7 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
         <Line options={options} data={data} />
       </div>
       <div className="dropdown">
-        <button onClick={clickedDropdownBtn} className="dropbtn">{dropdownButtonText}</button>
+        <button onClick={clickedDropdownBtn} className="dropbtn">{dropdownButtonText + " ▼"}</button>
         <div id="myDropdown" className={`dropdown-content ${showDropdown}`}>
           <a onClick={() => optionClicked("Option 1")} href="#">Option 1</a>
           <a onClick={() => optionClicked("Option 2")} href="#">Option 2</a>
@@ -151,6 +152,11 @@ export default function Forecast({stockTicker,nameOfStock}: Props) {
           <a onClick={() => optionClicked("Option 4")} href="#">Option 4</a>
         </div>
         <button className="submit-button" onClick={submitButtonClicked}>Submit</button>
+      </div>
+      <div className="stat-btn-container">
+        <Link to="/pages/statistics">
+          <button className="stat-button">Statistics</button>
+        </Link>
       </div>
     </div>
   );
