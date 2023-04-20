@@ -31,8 +31,8 @@ export const postData = async (data:string, data2:string, url:string) => {
   }
 }
 
-/* THIS WILL BE USED TO SEND THE OPTION SELECTED IN FORECAST TO BACKEND
-export const postForecastOption = async (option: string) => {
+// THIS WILL BE USED TO SEND THE OPTION SELECTED IN FORECAST TO BACKEND
+export const postForecastOption = async (option: string, url:string) => {
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -45,7 +45,6 @@ export const postForecastOption = async (option: string) => {
     console.error(error);
   }
 }
-*/
 
 export const getDataFromBackend = async () => {
   console.log("Running backendData()");
