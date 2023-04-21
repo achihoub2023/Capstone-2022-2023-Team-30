@@ -5,7 +5,7 @@ type Props = {
 
 const Statistics = ({stockTicker, nameOfStock}: Props) => {
     return (
-
+        <br></br>
     );
 }
  
