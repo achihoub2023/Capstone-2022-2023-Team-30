@@ -47,7 +47,7 @@ def my_profile():
     return response_body
 
 
-@api.route("/data", methods=["POST"])
+@api.route("/article_stats",methods = ["GET","POST"])
 def sendData():
     # Preprocessing ------------------------------------------
     req = request.get_json()  # get request endpoint

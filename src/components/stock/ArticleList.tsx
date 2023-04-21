@@ -1,6 +1,7 @@
 import googleArticles from "data/stockData/googleArticles.json";
 import {postData} from './api'
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface article {
   link: string;
@@ -21,7 +22,6 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
     postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
-  console.log(resp);
   
   //function for when article is clicked, open article in new tab
   const whenStockNameClicked = (
@@ -74,6 +74,7 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
           Sometimes, websites cannot be scraped due to the website's policy. </p>
       </div>
       <br></br>
+
       {
         lists.map((article, index) => (
           <div className="article" key={index} onClick={whenStockNameClicked} >
@@ -85,6 +86,12 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
           </div>
         ))
       }
+
+      <div className="stat-btn-container">
+        <Link to="/pages/statistics">
+          <button className="stat-button">Statistics</button>
+        </Link>
+      </div>
     </div>
   );
 }

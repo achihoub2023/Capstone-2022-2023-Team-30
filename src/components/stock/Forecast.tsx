@@ -146,17 +146,10 @@ export default function Forecast({stockTicker, nameOfStock}: Props) {
       <div className="dropdown">
         <button onClick={clickedDropdownBtn} className="dropbtn">{dropdownButtonText + " ▼"}</button>
         <div id="myDropdown" className={`dropdown-content ${showDropdown}`}>
-          <a onClick={() => optionClicked("Option 1")} href="#">Option 1</a>
-          <a onClick={() => optionClicked("Option 2")} href="#">Option 2</a>
-          <a onClick={() => optionClicked("Option 3")} href="#">Option 3</a>
-          <a onClick={() => optionClicked("Option 4")} href="#">Option 4</a>
+          <a onClick={() => optionClicked("Democrat Wins 2024 Election")} href="#">Democrat Wins 2024 Election</a>
+          <a onClick={() => optionClicked("Drought in Africa")} href="#">Drought in Africa</a>
         </div>
         <button className="submit-button" onClick={submitButtonClicked}>Submit</button>
-      </div>
-      <div className="stat-btn-container">
-        <Link to="/pages/statistics">
-          <button className="stat-button">Statistics</button>
-        </Link>
       </div>
     </div>
   );
