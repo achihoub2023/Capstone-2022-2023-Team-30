@@ -185,6 +185,7 @@ class Sentiment_Utils:
         plot.set_xlabel("Sentiment",fontsize = 10)
         plot.set_ylabel("Density",fontsize = 10)
         plot.set_title("Distribution of FinBert Sentiment Among News Sources",fontsize = 10)
+        plot.save_fig
         return
     
     #histogramplot for finbert
