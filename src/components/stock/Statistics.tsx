@@ -71,15 +71,15 @@ export default function Statistics({stockTicker,nameOfStock}: Props) {
       <h1>{nameOfStock} Statistics Page</h1>
       <br></br>
       <div>
-        <h2> Notes on VADER and Finbert Scores</h2>
-        <p>  VADER scores are reported from -1 to 1. Finbert scores is an integer 0,1, or 2. Finbert score of 0 is positive, 1 is negative, 2 is neutral.
-          Sometimes, websites cannot be scraped due to the website's policy. </p>
+        <h2> Notes on Statistics Page</h2>
+        <p>  Using the Finbert and VADER model, we rate each of the ten articles pulled as positive, negative, or neutral. The histogram plot of each one is shown below.
+          1 is positive, 0 is negative, 2 is neutral. </p>
       </div>
       <br></br>
-    <div className = "Histogram">
+    <div className = "Histogram for Vader">
       <Histogram data = {x_axis}/>
     </div>
-    <div className = "Histogram">
+    <div className = "Histogram for Finbert">
       <Histogram data = {finbert_list}/>
     </div>
     </div>
