@@ -2,6 +2,9 @@ import googleArticles from "data/stockData/googleArticles.json";
 import {postData} from './api'
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
+import Calendar from "./Calendar";
+
 
 interface article {
   link: string;
@@ -22,6 +25,7 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
     postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
+  console.log(resp)
   
   //function for when article is clicked, open article in new tab
   const whenStockNameClicked = (
@@ -41,15 +45,8 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
 
   const processed = JSON.parse(JSON.stringify(resp));
 
-  // console.log(processed.articles.value)
-  // console.log(processed.articles);
+  console.log(processed.articles);
 
-  // console.log(googleArticles);
-
-  // console.log(typeof processed.articles);
-
-  // console.log("after");
-  // console.log(googleArticles.articles);
   var lists = []
   for(var i =0; i<processed.articles?.length; i++){
     lists.push([processed.articles?.[i].link,processed.articles?.[i].title,
@@ -74,6 +71,8 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
           Sometimes, websites cannot be scraped due to the website's policy. </p>
       </div>
       <br></br>
+      {/* <Calendar></Calendar> */}
+
 
       {
         lists.map((article, index) => (

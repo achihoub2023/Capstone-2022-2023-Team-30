@@ -90,21 +90,59 @@ class Sentiment_Utils:
         return stats
     
     #countplot of vader scores
-    def plot_vader_scores_count(self,df):
+    def plot_vader_scores_count(self,df,i):
         plot = sns.countplot(x = "VaderPolarities", data = df)
         plot.set_xlabel("Sentiment",fontsize = 10)
         plot.set_ylabel("Density",fontsize = 10)
         plot.set_title("Distribution of Vader Sentiment Among News Sources",fontsize = 10)
+        plt = plot.get_figure()
+        plt.savefig("src/STATIC/VADER_Count_Plot_{i}.png".format(i))
         return
     
     #histogram plot of vader scores
-    def plot_vader_scores_dist(self,df):
+    def plot_vader_scores_dist(self,df,i):
         plot = sns.distplot(df["VaderPolarities"], kde = True, hist = False)
         plot.set_xlabel("Sentiment",fontsize = 10)
         plot.set_ylabel("Density",fontsize = 10)
         plot.set_title("Distribution of Vader Sentiment Among News Sources",fontsize = 10)
+        plt = plot.get_figure()
+        plt.savefig("src/STATIC/VADER_Dist_Plot_{i}.png".format(i))
         return
     
+    def finbert_score_string(self,df):
+        ratings =  df["FinBertSentiments"].tolist()
+        print(ratings)
+        Finbert_score_string = "".join(str(e )+"," for e in ratings)[:-1]
+        print(Finbert_score_string)
+        # for i in range(len(ratings)):
+        #     if i == (len(ratings) -1):
+        #         Finbert_score_string  = Finbert_score_string.join(str(ratings[i]))  
+        #     else:
+        #         Finbert_score_string  = Finbert_score_string.join(str(ratings[i]) + ",")
+        return Finbert_score_string
+    
+    
+    def vader_score_string(self,df):
+        print(type(df))
+        vader_score_count = []
+        ratings = df["VaderPolarities"]
+        print(ratings)
+        for rating in ratings:
+            
+            if (rating < -0.20): #negative
+                vader_score_count.append(1)
+            elif (rating >0.20): #positive
+                vader_score_count.append(0)
+            else: #neutral
+                vader_score_count.append(2)
+        vader_score_string = "".join(str(e )+"," for e in  vader_score_count)[:-1]
+        print(vader_score_string)
+        # for i in range(len(vader_score_count)):
+        #     if i == (len(vader_score_count) -1):
+        #         vader_score_string = vader_score_string.join(str(vader_score_count[i]))  
+        #     else:
+        #         vader_score_string = vader_score_string.join(str(vader_score_count[i]) + ",")
+        return vader_score_string
     #generates rating for specific article
 
     def finbert_rate_article(self,model, tokenizer, article):
@@ -179,20 +217,23 @@ class Sentiment_Utils:
         return stats
     
     #countplot for finbert
-    def plot_finbert_scores_count(self,df):
+    def plot_finbert_scores_count(self,df,i):
 
         plot = sns.countplot(x = "FinBertSentiments", data = df)
         plot.set_xlabel("Sentiment",fontsize = 10)
         plot.set_ylabel("Density",fontsize = 10)
         plot.set_title("Distribution of FinBert Sentiment Among News Sources",fontsize = 10)
-        plot.save_fig
+        plt = plot.get_figure()
+        plt.savefig("/Users/anischihoub/Documents/Rutgers_Classes/Spring_2023_Classes/Capstone_2022_2023_Team_30/backend/NLP/STATIC/Finbert_Count_Plot_{i}.png".format(i))
         return
     
     #histogramplot for finbert
-    def plot_finbert_scores_dist(self,df):
+    def plot_finbert_scores_dist(self,df,i):
 
         plot = sns.distplot(df["FinBertSentiments"], kde = True, hist = False)
         plot.set_xlabel("Sentiment",fontsize = 10)
         plot.set_ylabel("Density",fontsize = 10)
         plot.set_title("Distribution of FinBert Sentiment Among News Sources",fontsize = 10)
+        plt = plot.get_figure()
+        plt.savefig("/Users/anischihoub/Documents/Rutgers_Classes/Spring_2023_Classes/Capstone_2022_2023_Team_30/backend/NLP/STATIC/Finbert_Dist_Plot_{i}.png".format(i))
         return
