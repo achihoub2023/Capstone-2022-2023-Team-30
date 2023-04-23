@@ -40,35 +40,53 @@ type Props = {
 };
 
 interface IData {
-  values: number[];
+  values: string[];
 }
 
 
 export default function Statistics({stockTicker,nameOfStock}: Props) {
   const [resp, setData] = useState({});
+  const [isLoading, setLoading] = useState(true);
   const url = "http://localhost:8081/searchResults";
   useEffect(() => {
-    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
+    postData(stockTicker,nameOfStock,url).then(resp => {setData(resp)
+      setLoading(false);});
   }, []);
 
+  if (isLoading) {
+    return(
+    <div className="Stats">
+      {/* <h5>{nameOfStock} Statistics Page</h5> */}
+      Loading...
+      </div>
+    );
+  }
 
 
   const processed = JSON.parse(JSON.stringify(resp));
   console.log(processed)
 
   const x_axis: IData = {
-    values: processed.vader_list?.split(",").map(Number),
+    values: processed.vader_list?.split(",").map(String),
   };
   console.log(x_axis.values);
   const finbert_list: IData = {
-     values: processed.finbert_list?.split(",").map(Number),
+     values: processed.finbert_list?.split(",").map(String),
   }
+
+  const finbert_stats = processed.finbert_stats?.split(",").map(String);
+
+  const vader_stats = processed.vader_stats?.split(",").map(String);
+
+
+
+
   // console.log(x_axis);
   // console.log(typeof x_axis);
 
   return (
     <div className="ArticleList wide-container">
-      <h1>{nameOfStock} Statistics Page</h1>
+     
       <br></br>
       <div>
         <h2> Notes on Statistics Page</h2>
@@ -77,11 +95,26 @@ export default function Statistics({stockTicker,nameOfStock}: Props) {
       </div>
       <br></br>
     <div className = "Histogram for Vader">
-      <Histogram data = {x_axis}/>
+      <Histogram data = {x_axis} name_of_graph = "Vader"/>
     </div>
+    <div className = "Score">
+      Mean of Vader: {vader_stats[0]}, Median of Vader: {vader_stats[1]}, Standard Deviation of Vader: {vader_stats[2]}, 
+    </div>
+    <br></br>
     <div className = "Histogram for Finbert">
-      <Histogram data = {finbert_list}/>
+      <Histogram data = {finbert_list} name_of_graph = "Finbert"/>
     </div>
+    <div className = "Score">
+      Mean of Finbert: {finbert_stats[0]}, Median of Finbert: {finbert_stats[1]}, Standard Deviation of Finbert: {finbert_stats[2]}, 
+    </div>
+
+
+
+
+
+
+
+
     </div>
   );
 }

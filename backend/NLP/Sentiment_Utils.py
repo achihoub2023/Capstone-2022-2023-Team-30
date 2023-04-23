@@ -85,7 +85,8 @@ class Sentiment_Utils:
         mean_rating = ratings.mean()
         median_rating = ratings.median()
         std_rating = ratings.std()
-        stats = [mean_rating, median_rating, std_rating]
+        stats = [round(mean_rating,2), round(median_rating,2), round(std_rating,2)]
+        stats = "".join(str(e )+"," for e in stats)
         #print(stats)
         return stats
     
@@ -110,10 +111,16 @@ class Sentiment_Utils:
         return
     
     def finbert_score_string(self,df):
+        def map_score_to_string(n):
+            if n == 0:
+                return "Positive"
+            elif n == 1:
+                return "Negative"
+            else:
+                return "Neutral"
         ratings =  df["FinBertSentiments"].tolist()
-        print(ratings)
+        ratings = map(map_score_to_string,ratings)
         Finbert_score_string = "".join(str(e )+"," for e in ratings)[:-1]
-        print(Finbert_score_string)
         # for i in range(len(ratings)):
         #     if i == (len(ratings) -1):
         #         Finbert_score_string  = Finbert_score_string.join(str(ratings[i]))  
@@ -123,20 +130,17 @@ class Sentiment_Utils:
     
     
     def vader_score_string(self,df):
-        print(type(df))
         vader_score_count = []
         ratings = df["VaderPolarities"]
-        print(ratings)
         for rating in ratings:
             
             if (rating < -0.20): #negative
-                vader_score_count.append(1)
+                vader_score_count.append("Negative")
             elif (rating >0.20): #positive
-                vader_score_count.append(0)
+                vader_score_count.append("Positive")
             else: #neutral
-                vader_score_count.append(2)
+                vader_score_count.append("Neutral")
         vader_score_string = "".join(str(e )+"," for e in  vader_score_count)[:-1]
-        print(vader_score_string)
         # for i in range(len(vader_score_count)):
         #     if i == (len(vader_score_count) -1):
         #         vader_score_string = vader_score_string.join(str(vader_score_count[i]))  
@@ -212,7 +216,8 @@ class Sentiment_Utils:
         mean_rating = ratings.mean()
         median_rating = ratings.median()
         std_rating = ratings.std()
-        stats = [mean_rating, median_rating, std_rating]
+        stats = [round(mean_rating,2), round(median_rating,2), round(std_rating,2)]
+        stats = "".join(str(e )+"," for e in stats)
         #print(stats)
         return stats
     

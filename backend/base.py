@@ -109,7 +109,7 @@ def sendSearch():
     stockName = json.loads(request.get_data())["stockName"]
     query = "business news stories on" + stockName 
     print(query)
-    numberOfResults =  10
+    numberOfResults =  5
     titles,links = googleSearch(query,numberOfResults)
     sentiment = Sentiment_Utils.Sentiment_Utils()
     df = sentiment.analyze(links)
@@ -143,8 +143,15 @@ def sendSearch():
     response_body = {
         "articles":list_of_articles,
         "vader_list": sentiment.vader_score_string(df),
-        "finbert_list": sentiment.finbert_score_string(df)
+        "finbert_list": sentiment.finbert_score_string(df),
+        "finbert_stats": sentiment.finbert_stats(df),
+        "vader_stats": sentiment.vader_stats(df)
     }
+    print("=======================")
+    print(sentiment.vader_score_string(df))
+    print(sentiment.finbert_score_string(df))
+    print("=======================")
+
     return response_body
 
 @api.route("/time_series_default", methods = ["GET","POST"])
