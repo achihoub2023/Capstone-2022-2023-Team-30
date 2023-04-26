@@ -109,7 +109,6 @@ def sendSearch():
     stockName = json.loads(request.get_data())["stockName"]
     date = json.loads(request.get_data())["date"]
     query = "business news stories on" + stockName + " on {}".format({date})
-    print(query)
     numberOfResults =  5
     titles,links = googleSearch(query,numberOfResults)
     sentiment = Sentiment_Utils.Sentiment_Utils()
@@ -182,7 +181,6 @@ def sendSearchStats():
                 "finbert_stats": "Not Applicable"
             }
         list_of_articles.append(json_body)
-    # df = df.to_json();
     
     response_body = {
         "articles":list_of_articles,
@@ -196,34 +194,65 @@ def sendSearchStats():
 
 @api.route("/time_series_default", methods = ["GET","POST"])
 def default_commodities():    
-    stockName = json.loads(request.get_data())["stockTicker"]
-    START = "2015-01-01"
-    TODAY = date.today().strftime("%Y-%m-%d")
-    print(TODAY)
-    data = yf.download(stockName,'2022-01-01',datetime.today().strftime('%Y-%m-%d'))
-    time_series = data["Adj Close"].to_dict()        
-    indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
-    x_axis = pd.to_datetime(data.index).strftime("%Y-%m-%d").tolist()
-    x_axis_body= "".join(str(e )+"," for e in x_axis)[:-1]
-    y_axis = list(indexed_series.values())
-    y_axis_body= "".join(str(e)+"," for e in y_axis)[:-1]
-    
-    predictor = arima.ARIMA_UTILS()
-    x_axis_pred , y_axis_pred = predictor.make_standard_prediction(stockName)
-    y_axis_pred[0] = y_axis[0]
-    x_axis_pred = x_axis + x_axis_pred
-    y_axis_pred = y_axis + y_axis_pred 
-    x_axis_pred = "".join(str(e )+"," for e in x_axis_pred)[:-1]
-    y_axis_pred = "".join(str(e)+"," for e in y_axis_pred)[:-1]
-    
-    
-    response_body = {
-        "x": x_axis_body,
-        "y": y_axis_body,
-        "x_pred": x_axis_pred,
-        "y_pred": y_axis_pred
-    }
-    
+    option = json.loads(request.get_data())["option"]
+    print(option)
+    if option == "Joe Biden Continues as President":
+        stockName = json.loads(request.get_data())["stockTicker"]
+        START = "2015-01-01"
+        TODAY = date.today().strftime("%Y-%m-%d")
+        print(TODAY)
+        data = yf.download(stockName,'2022-01-01',datetime.today().strftime('%Y-%m-%d'))
+        time_series = data["Adj Close"].to_dict()        
+        indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
+        x_axis = pd.to_datetime(data.index).strftime("%Y-%m-%d").tolist()
+        x_axis_body= "".join(str(e )+"," for e in x_axis)[:-1]
+        y_axis = list(indexed_series.values())
+        y_axis_body= "".join(str(e)+"," for e in y_axis)[:-1]
+        
+        predictor = arima.ARIMA_UTILS()
+        x_axis_pred , y_axis_pred = predictor.make_standard_prediction(stockName)
+        y_axis_pred[0] = y_axis[0]
+        x_axis_pred = x_axis + x_axis_pred
+        y_axis_pred = y_axis + y_axis_pred 
+        x_axis_pred = "".join(str(e )+"," for e in x_axis_pred)[:-1]
+        y_axis_pred = "".join(str(e)+"," for e in y_axis_pred)[:-1]
+        
+        
+        response_body = {
+            "x": x_axis_body,
+            "y": y_axis_body,
+            "x_pred": x_axis_pred,
+            "y_pred": y_axis_pred
+        }
+    else:
+        stockName = json.loads(request.get_data())["stockTicker"]
+        START = "2015-01-01"
+        TODAY = date.today().strftime("%Y-%m-%d")
+        print(TODAY)
+        data = yf.download(stockName,'2022-01-01',datetime.today().strftime('%Y-%m-%d'))
+        time_series = data["Adj Close"].to_dict()        
+        indexed_series = {i:v for i,(k,v) in enumerate(time_series.items(), 1)}
+        x_axis = pd.to_datetime(data.index).strftime("%Y-%m-%d").tolist()
+        x_axis_body= "".join(str(e )+"," for e in x_axis)[:-1]
+        y_axis = list(indexed_series.values())
+        y_axis_body= "".join(str(e)+"," for e in y_axis)[:-1]
+        
+        predictor = arima.Recession_UTILS()
+        x_axis_pred , y_axis_pred = predictor.make_standard_prediction(stockName)
+        y_axis_pred[0] = y_axis[0]
+        x_axis_pred = x_axis + x_axis_pred
+        y_axis_pred = y_axis + y_axis_pred 
+        x_axis_pred = "".join(str(e )+"," for e in x_axis_pred)[:-1]
+        y_axis_pred = "".join(str(e)+"," for e in y_axis_pred)[:-1]
+        
+        
+        response_body = {
+            "x": x_axis_body,
+            "y": y_axis_body,
+            "x_pred": x_axis_pred,
+            "y_pred": y_axis_pred
+        }
+        
     return response_body
 
 

@@ -8,6 +8,7 @@ import Histogram from "./Histogram";
 import { Bar, Chart } from 'react-chartjs-2';
 import Boxplot, { computeBoxplotStats } from 'react-boxplot'
 
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -34,6 +35,25 @@ interface article {
   title: string;
 }
 
+const data = {
+  labels: ['A', 'B', 'C', 'D'],
+  datasets: [
+    {
+      label: 'Boxplot',
+      data: [
+        [3, 5, 7, 9, 11],
+        [4, 5, 6, 7, 8],
+        [2, 5, 6, 8, 9],
+        [1, 2, 3, 4, 5],
+      ],
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
+    },
+  ],
+};
+
+
 
 type Props = {
   stockTicker: string; // The name of the stock
@@ -46,6 +66,7 @@ interface IData {
 
 
 export default function Statistics({stockTicker,nameOfStock}: Props) {
+  const ctx = document.getElementById('myChart') as HTMLCanvasElement;
   const [resp, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const url = "http://localhost:8081/searchResultsStatistics";
@@ -83,7 +104,6 @@ export default function Statistics({stockTicker,nameOfStock}: Props) {
   console.log(vader_stats)
 
 
-
   return (
     <div className="ArticleList wide-container">
      
@@ -109,18 +129,22 @@ export default function Statistics({stockTicker,nameOfStock}: Props) {
     </div>
 
     <br></br>
-    <div className = "BoxPlot">
+    {/* <div className = "BoxPlot">
     <Boxplot
       width={2000}
       height={1000}
-      orientation="horizontal"
+      orientation="vertical"
       min={-10}
       max={10}
       stats={computeBoxplotStats(vader_stats)}
     />
+    </div> */}
+
+{/* 
+    <div id="container">
+      <canvas id="myChart"></canvas>
     </div>
-
-
+ */}
 
 
 

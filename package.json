@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@sgratzl/chartjs-chart-boxplot": "^4.1.2",
         "@testing-library/jest-dom": "^5.16.1",
         "@testing-library/react": "^12.1.2",
         "@testing-library/user-event": "^13.5.0",
@@ -11,7 +12,7 @@
         "@types/react": "^17.0.38",
         "@types/react-dom": "^17.0.11",
         "anychart": "^8.11.0",
-        "chart.js": "^4.2.0",
+        "chart.js": "^4.2.1",
         "d3": "^7.8.4",
         "plotly": "^1.0.6",
         "plotly.js": "^2.21.0",

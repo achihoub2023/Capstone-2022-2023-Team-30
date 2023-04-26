@@ -54,14 +54,22 @@ type Props = {
 export default function Forecast({stockTicker, nameOfStock}: Props) {
 
   const [resp, setData] = useState({});
+  const [selectedOption, setSelectedOption] = useState("Joe Biden Continues as President");
+
   const url = "http://localhost:8081/time_series_default"
   // console.log({props.stockName});
   useEffect(() => {
-    postDataStatistics(stockTicker,nameOfStock,url).then(resp => setData(resp));
-  }, []);
-
+    console.log(selectedOption)
+    if (selectedOption !== "Joe Biden Continues as President") {
+      const url = "http://localhost:8081/time_series_default";
+      postForecastOption(selectedOption,stockTicker, nameOfStock, url).then((resp) => setData(resp));
+    }else{
+      const url = "http://localhost:8081/time_series_default";
+      postForecastOption(selectedOption,stockTicker, nameOfStock, url).then((resp) => setData(resp));
+    }
+  }, [selectedOption]);
+  
   const processed = JSON.parse(JSON.stringify(resp));
-  console.log(processed)
   const x_axis = processed.x?.split(",");
   const y_axis = processed.y?.split(",").map(Number);
 
@@ -81,11 +89,11 @@ export default function Forecast({stockTicker, nameOfStock}: Props) {
 
   const optionClicked = (option: string): void => {
     setDropdownButtonText(option);
+    setSelectedOption(option);
     setShowDropdown("");
   }
-
   const submitButtonClicked = (): void => {
-    postForecastOption(dropdownButtonText, url);
+    postForecastOption(selectedOption,stockTicker, nameOfStock, url).then((resp) => setData(resp));
   }
 
   const data = {
@@ -137,6 +145,8 @@ export default function Forecast({stockTicker, nameOfStock}: Props) {
     }
   };
 
+
+
   return (
     <div className="Forcast wide-container">
       <div className="header">
@@ -146,8 +156,8 @@ export default function Forecast({stockTicker, nameOfStock}: Props) {
       <div className="dropdown">
         <button onClick={clickedDropdownBtn} className="dropbtn">{dropdownButtonText + " ▼"}</button>
         <div id="myDropdown" className={`dropdown-content ${showDropdown}`}>
-          <a onClick={() => optionClicked("Democrat Wins 2024 Election")} href="#">Democrat Wins 2024 Election</a>
-          <a onClick={() => optionClicked("Drought in Africa")} href="#">Drought in Africa</a>
+          <a onClick={() => optionClicked("Joe Biden Continues as President")} href="#">Joe Biden Continues as President</a>
+          <a onClick={() => optionClicked("Recession Today")} href="#">Recession Today</a>
         </div>
         <button className="submit-button" onClick={submitButtonClicked}>Submit</button>
       </div>

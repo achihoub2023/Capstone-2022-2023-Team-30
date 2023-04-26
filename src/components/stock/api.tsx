@@ -16,6 +16,7 @@ export const getData = async () => {
 };
 
 export const postData = async (data:string, data2:string, data3:string, url:string) => {
+  
   try {
     const response = await fetch(url, {
     method: 'POST',
@@ -49,16 +50,18 @@ export const postDataStatistics = async (data:string, data2:string, url:string) 
 }
 
 // THIS WILL BE USED TO SEND THE OPTION SELECTED IN FORECAST TO BACKEND
-export const postForecastOption = async (option: string, url:string) => {
+export const postForecastOption = async (option: string, stockTicker: string, stockName: string, url:string) => {
   try {
     const response = await fetch(url, {
-      method: 'POST',
-      headers: {
+    method: 'POST',
+    headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({option: option})
-    });
-  } catch(error) {
+    },
+    body: JSON.stringify({stockTicker: stockTicker, stockName:stockName, option: option})
+  });
+    const data_2 = response.json();
+    return data_2;
+  } catch (error) {
     console.error(error);
   }
 }

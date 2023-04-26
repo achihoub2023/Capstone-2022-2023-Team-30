@@ -2,9 +2,9 @@ import { Stock } from "interfaces";
 
 const stocks: Array<Stock> = [
   {
-    name: "Water",
-    icon: "https://logo.clearbit.com/amwater.com",
-    ticker: "H20=F"
+    name: "Sugar",
+    icon: "https://logo.clearbit.com/mondelezinternational.com/",
+    ticker: "SB=F"
   },
   {
     name: "Natural Gas",
@@ -23,7 +23,7 @@ const stocks: Array<Stock> = [
   },
   {
     name: "Cobalt",
-    ticker: "COB=F",
+    ticker: "VALE",
     icon: "https://logo.clearbit.com/nio.com",
   },
   {
