@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import 'components/styles/Forecast.css'
 import axios from "axios";
-import { getData, postForecastOption } from './api';
+import { getData, postDataStatistics, postForecastOption } from './api';
 import {postData} from './api'
 
 import {
@@ -57,7 +57,7 @@ export default function Forecast({stockTicker, nameOfStock}: Props) {
   const url = "http://localhost:8081/time_series_default"
   // console.log({props.stockName});
   useEffect(() => {
-    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
+    postDataStatistics(stockTicker,nameOfStock,url).then(resp => setData(resp));
   }, []);
 
   const processed = JSON.parse(JSON.stringify(resp));

@@ -3,8 +3,8 @@ import {postData} from './api'
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-import Calendar from "./Calendar";
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface article {
   link: string;
@@ -19,14 +19,31 @@ type Props = {
 
 export default function ArticleList({stockTicker,nameOfStock}: Props) {
   const [resp, setData] = useState({});
-  // console.log({props.stockName});
+  const [htmlContent, setHtmlContent] = useState<JSX.Element[]>([]);
+  const [selectedDate, setSelectedDate] = useState('');
   const url = "http://localhost:8081/searchResults";
-  useEffect(() => {
-    postData(stockTicker,nameOfStock,url).then(resp => setData(resp));
-  }, []);
+  const [articlesLoaded, setArticlesLoaded] = useState(false); // State variable to track if articles have loaded
 
-  console.log(resp)
-  
+  const handleDateChange = (date: Date) => {
+    var date_string = date.toDateString();
+    postData(stockTicker,nameOfStock,date_string,url).then(resp => setData(resp));
+  };
+
+  useEffect(() => {
+    const processed = JSON.parse(JSON.stringify(resp));
+    const lists = processed.articles?.map((article: any, index: any) => (
+      <div className="article" key={index} onClick={whenStockNameClicked}>
+        <h3>{article.link}</h3>
+        <p className="article-link">{article.title}</p>
+        <p>Finbert Score: {article.finbert}</p>
+        <p>Vader Score: {article.vader}</p>
+        <br></br>
+      </div>
+    ));
+    setHtmlContent(lists || []);
+    setArticlesLoaded(true)
+  }, [resp]);
+
   //function for when article is clicked, open article in new tab
   const whenStockNameClicked = (
     e: React.MouseEvent<HTMLHeadingElement, MouseEvent>
@@ -43,23 +60,6 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
     }
   };
 
-  const processed = JSON.parse(JSON.stringify(resp));
-
-  console.log(processed.articles);
-
-  var lists = []
-  for(var i =0; i<processed.articles?.length; i++){
-    lists.push([processed.articles?.[i].link,processed.articles?.[i].title,
-      processed.articles?.[i].finbert,processed.articles?.[i].vader]);
-      console.log(processed.finbert?.[i])
-  }
-
-  // processed.articles?.map((article:Object,index:Number) => console.log(article.title));
-  // console.log(processed.articles.map((article,index) => console.log(article.link));
-  // const output = processed.userList.map(() => processed.link);
-  console.log(lists)
-  // console.log(output);
-
   return (
     <div className="ArticleList wide-container">
 
@@ -71,26 +71,30 @@ export default function ArticleList({stockTicker,nameOfStock}: Props) {
           Sometimes, websites cannot be scraped due to the website's policy. </p>
       </div>
       <br></br>
-      {/* <Calendar></Calendar> */}
+      
+    <div className="calendar">
+    Pick a date here: <DatePicker
+        selected={selectedDate ? new Date(selectedDate) : null}
+        onChange={handleDateChange}
+        dateFormat="MM/dd/yyyy"
+      />
+    </div>
 
+      <br></br>
+      <h3>{selectedDate}</h3>
+      <div className="article-container">
+        {htmlContent}
+      </div>
+      <br></br>
 
-      {
-        lists.map((article, index) => (
-          <div className="article" key={index} onClick={whenStockNameClicked} >
-            <h3>{article[0]}</h3>
-            <p className="article-link">{article[1]}</p>
-            <p>Finbert Score: {article[2]}</p>
-            <p>Vader Score: {article[3]}</p>
-            <br></br>
-          </div>
-        ))
-      }
-
+    {articlesLoaded &&(
       <div className="stat-btn-container">
-        <Link to="/pages/statistics">
+      <Link to="/pages/statistics">
           <button className="stat-button">Statistics</button>
         </Link>
-      </div>
+      </div> 
+    )  }
     </div>
   );
 }
+

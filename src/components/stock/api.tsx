@@ -15,7 +15,24 @@ export const getData = async () => {
     }
 };
 
-export const postData = async (data:string, data2:string, url:string) => {
+export const postData = async (data:string, data2:string, data3:string, url:string) => {
+  try {
+    const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({stockTicker: data, stockName:data2,date:data3})
+  });
+    const data_2 = response.json();
+    return data_2;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+export const postDataStatistics = async (data:string, data2:string, url:string) => {
   try {
     const response = await fetch(url, {
     method: 'POST',

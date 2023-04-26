@@ -107,7 +107,8 @@ def sendSearch():
     for f in files:
         os.remove(f)
     stockName = json.loads(request.get_data())["stockName"]
-    query = "business news stories on" + stockName 
+    date = json.loads(request.get_data())["date"]
+    query = "business news stories on" + stockName + " on {}".format({date})
     print(query)
     numberOfResults =  5
     titles,links = googleSearch(query,numberOfResults)
@@ -115,10 +116,6 @@ def sendSearch():
     df = sentiment.analyze(links)
     list_of_articles = []
     for i in range(numberOfResults):
-        # sentiment.plot_vader_scores_count(df,i)
-        # sentiment.plot_vader_scores_dist(df,i)
-        # sentiment.plot_finbert_scores_count(df,i)
-        # sentiment.plot_finbert_scores_dist(df,i)
         try:
             json_body = {
                 "link": links[i],
@@ -147,10 +144,53 @@ def sendSearch():
         "finbert_stats": sentiment.finbert_stats(df),
         "vader_stats": sentiment.vader_stats(df)
     }
-    print("=======================")
-    print(sentiment.vader_score_string(df))
-    print(sentiment.finbert_score_string(df))
-    print("=======================")
+
+
+    return response_body
+
+
+@api.route("/searchResultsStatistics", methods = ["POST"])
+def sendSearchStats():
+    files = glob.glob('backend/NLP/STATIC')
+    for f in files:
+        os.remove(f)
+    stockName = json.loads(request.get_data())["stockName"]
+    query = "business news stories on" + stockName
+    print(query)
+    numberOfResults =  5
+    titles,links = googleSearch(query,numberOfResults)
+    sentiment = Sentiment_Utils.Sentiment_Utils()
+    df = sentiment.analyze(links)
+    list_of_articles = []
+    for i in range(numberOfResults):
+        try:
+            json_body = {
+                "link": links[i],
+                "title":titles[i],
+                "vader": str(df["VaderPolarities"][i]),
+                "finbert":str(df["FinBertSentiments"][i]),
+                "vader_stats": "".join(str(e )+"," for e in sentiment.vader_stats(df))[:-1],
+                "finbert_stats": "".join(str(e )+"," for e in sentiment.finbert_stats(df))[:-1]
+            }
+        except KeyError:
+            json_body = {
+                "link": links[i],
+                "title":titles[i],
+                "vader": "Website cannot be scraped.",
+                "finbert": "Website cannot be scraped.",
+                "vader_stats": "Not Applicable",
+                "finbert_stats": "Not Applicable"
+            }
+        list_of_articles.append(json_body)
+    # df = df.to_json();
+    
+    response_body = {
+        "articles":list_of_articles,
+        "vader_list": sentiment.vader_score_string(df),
+        "finbert_list": sentiment.finbert_score_string(df),
+        "finbert_stats": sentiment.finbert_stats(df),
+        "vader_stats": sentiment.vader_stats(df)
+    }
 
     return response_body
 

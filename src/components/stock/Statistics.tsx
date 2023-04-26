@@ -1,11 +1,12 @@
 import googleArticles from "data/stockData/googleArticles.json";
-import {postData} from './api'
+import {postData,postDataStatistics} from './api'
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import * as Plotly from 'plotly.js';
 import Histogram from "./Histogram";
 import { Bar, Chart } from 'react-chartjs-2';
+import Boxplot, { computeBoxplotStats } from 'react-boxplot'
 
 import {
   Chart as ChartJS,
@@ -47,49 +48,48 @@ interface IData {
 export default function Statistics({stockTicker,nameOfStock}: Props) {
   const [resp, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
-  const url = "http://localhost:8081/searchResults";
+  const url = "http://localhost:8081/searchResultsStatistics";
   useEffect(() => {
-    postData(stockTicker,nameOfStock,url).then(resp => {setData(resp)
+    postDataStatistics(stockTicker,nameOfStock,url,).then(resp => {setData(resp)
       setLoading(false);});
   }, []);
 
   if (isLoading) {
     return(
     <div className="Stats">
-      {/* <h5>{nameOfStock} Statistics Page</h5> */}
       Loading...
       </div>
     );
   }
 
 
+  
+
+
   const processed = JSON.parse(JSON.stringify(resp));
-  console.log(processed)
 
   const x_axis: IData = {
     values: processed.vader_list?.split(",").map(String),
   };
-  console.log(x_axis.values);
+
   const finbert_list: IData = {
      values: processed.finbert_list?.split(",").map(String),
   }
 
-  const finbert_stats = processed.finbert_stats?.split(",").map(String);
+  const finbert_stats = processed.finbert_stats?.split(",").map(Number);
 
-  const vader_stats = processed.vader_stats?.split(",").map(String);
+  // let vader_stats: Array<Number>
+  const vader_stats = processed.vader_stats?.split(",").map(Number);
+  console.log(vader_stats)
 
 
-
-
-  // console.log(x_axis);
-  // console.log(typeof x_axis);
 
   return (
     <div className="ArticleList wide-container">
      
       <br></br>
       <div>
-        <h2> Notes on Statistics Page</h2>
+        <h2> Statistics Page for: {nameOfStock}</h2>
         <p>  Using the Finbert and VADER model, we rate each of the ten articles pulled as positive, negative, or neutral. The histogram plot of each one is shown below.
           1 is positive, 0 is negative, 2 is neutral. </p>
       </div>
@@ -106,6 +106,18 @@ export default function Statistics({stockTicker,nameOfStock}: Props) {
     </div>
     <div className = "Score">
       Mean of Finbert: {finbert_stats[0]}, Median of Finbert: {finbert_stats[1]}, Standard Deviation of Finbert: {finbert_stats[2]}, 
+    </div>
+
+    <br></br>
+    <div className = "BoxPlot">
+    <Boxplot
+      width={2000}
+      height={1000}
+      orientation="horizontal"
+      min={-10}
+      max={10}
+      stats={computeBoxplotStats(vader_stats)}
+    />
     </div>
 
 
